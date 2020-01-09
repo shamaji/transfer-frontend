@@ -1,51 +1,85 @@
-<!-- Main Wrapper -->
-<div class="main-wrapper login-body">
-  <div class="login-wrapper">
-    <div class="container">
-        <div class="loginbox">
-            <div class="login-left">
-    <img class="img-fluid" src="assets/img/logo.png" alt="Logo">
-              </div>
-              <div class="login-right">
-    <div class="login-right-wrap">
-      <h1>Register</h1>
-      <p class="account-subtitle">Access to our dashboard</p>
-
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" [(ngModel)] = 'user.name'>
-          <!-- <input type="text"  /> -->
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Email" [(ngModel)] = 'user.email'>
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Password" [(ngModel)] = 'user.password'>
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Confirm Password" [(ngModel)] = 'user.cpassword'>
-        </div>
-        <div class="form-group mb-0">
-          <button class="btn btn-primary btn-block" (click)="reg()">Register</button>
-          <div style="color: red;"> {{message}}</div>
-        </div>
-
-      <div class="login-or">
-        <span class="or-line"></span>
-        <span class="span-or">or</span>
+<section class="auth-fluid-pages pb-0">
+  <div class="auth-fluid">
+    <!-- Auth fluid right content -->
+    <div class="auth-fluid-right text-center">
+      <div class="auth-user-testimonial">
+        <!-- <h2 class="mb-3">I love the color!</h2> -->
+        <p class="lead">
+          <i class="mdi mdi-format-quote-open"></i> Money Transfer and Online Payments .
+          <i class="mdi mdi-format-quote-close"></i>
+        </p>
+        <p>
+          - Payyed
+        </p>
       </div>
-
-      <!-- Social Login -->
-      <div class="social-login">
-        <span>Register with</span>
-        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" class="google"><i class="fa fa-google"></i></a>
-      </div>
-      <!-- /Social Login -->
-
-      <div class="text-center dont-have">Already have an account? <a routerLink="../sign-in">Login</a></div>
+      <!-- end auth-user-testimonial-->
     </div>
-              </div>
+    <!-- end Auth fluid right content -->
+    <!--Auth fluid left content -->
+    <div class="auth-fluid-form-box">
+      <div class="align-items-center d-flex h-100">
+        <div class="card-body">
+
+          <!-- Logo -->
+          <div class="auth-brand text-center text-lg-left">
+            <a href="index.html">
+              <span>
+                <img src="assets/images/logo-light.png" alt="" height="18">
+              </span>
+            </a>
           </div>
+
+          <!-- title-->
+          <h4 class="mt-0">Free Sign Up</h4>
+          <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute</p>
+          
+            <div class="form-group">
+              <label for="fullname">Name</label>
+              <input class="form-control" type="text" id="fullname" placeholder="Enter your name" [(ngModel)]='user.name'>
+            </div>
+            <div class="form-group">
+              <label for="emailaddress">Email ID</label>
+              <input class="form-control" type="text" id="emailaddress" placeholder="Enter your email" [(ngModel)]='user.email'>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input class="form-control" type="text" id="password" placeholder="Enter your password" [(ngModel)]='user.password'>
+            </div>
+            <div class="form-group">
+              <label for="cpassword">Confirm Password</label>
+              <input class="form-control" type="text" id="cpassword" placeholder="Enter your confirm password" [(ngModel)]='user.cpassword'>
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="checkbox-signup">
+                <label class="custom-control-label" for="checkbox-signup">I accept
+                  <a href="javascript: void(0);" class="text-muted">Terms and Conditions</a>
+                </label>
+              </div>
+            </div>
+            <div class="form-group mb-0 text-center">
+              <button class="btn btn-primary btn-block" type="submit" (click)="reg()">
+                <i class="mdi mdi-account-circle"></i> Sign Up </button>
+              <div style="color: red;"> {{message}}</div>
+            </div>
+
+          <!-- Footer-->
+          <footer class="footer footer-alt">
+            <p class="text-muted">Already have account?
+              <a routerLink="../sign-in" class="text-muted ml-1">
+                <b>Log In</b>
+              </a>
+            </p>
+          </footer>
+
+        </div>
+        <!-- end .card-body -->
       </div>
+      <!-- end .align-items-center.d-flex.h-100-->
+    </div>
+    <!-- end auth-fluid-form-box-->
+
+
   </div>
-</div>
-<!-- /Main Wrapper -->
+  <!-- end auth-fluid-->
+</section>
