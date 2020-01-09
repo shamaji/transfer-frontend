@@ -1,0 +1,168 @@
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Bank</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Bank Details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12 d-flex">
+                <!-- Recent Orders -->
+                <div class="card card-table flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title">Bank List</h4>
+                        <button class="btn btn-info pull-right" style="margin-top: -30px;" (click)="addModel()"> Add
+                        </button>
+                        <button class="btn btn-danger pull-right" style="margin-top: -30px;" (click)="dowloadPDF()"> PDF
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="pull-left">
+                                <h5>Total: {{paginationResponse &&
+                                            paginationResponse.totalElements?paginationResponse.totalElements:0}}</h5>
+                            </div>
+                            <div style="margin-bottom: 5px;" id="custom-search-input" class="pull-right ">
+                                    <div class="input-group">
+                                        <input id="searchText" type="text" placeholder="Search"
+                                            [(ngModel)]="searchText" class="form-control"
+                                            (keyup.enter)="getAllBank()">
+            
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info btn-lg" type="button"
+                                                (click)="getAllBank(); ">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                            <!-- [disabled]="!paginationRequest.searchText" -->
+                                        </span>
+                                    </div>
+                                </div>
+                            <table class="table table-hover table-center">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="text-center">Bank Name</th>
+                                        <!-- <th class="text-center">Bank Type</th> -->
+                                        <th class="text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let bank of bankList; let i= index;">
+                                        <td> {{i+1}}</td>
+                                        <td class="text-nowrap">{{bank.bankName?bank.bankName:'-'}}</td>
+                                        <!-- <td class="text-nowrap"> {{bank.bankType?bank.bankType.bankTypeName:'-'}} -->
+                                        <!-- </td> -->
+                                        <td class="text-center">
+                                            <button class="btn btn-info" (click)="getByIdBank(bank)">View</button>
+                                            <button class="btn btn-primary" (click)="editbank(bank)">Edit</button>
+                                            <button class="btn btn-danger" (click)="deleteBank(bank)">delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- pagnation design  -->
+                    <div class="card-footer"
+                        *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
+                        <div class="pull-left">
+                            <div class="record">
+                                <div class="pull-left page_dropdown" *ngIf="paginationResponse.pageArray.length > 0">
+                                    <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray"
+                                        bindLabel="name" bindValue="id" placeholder="Select per Page"
+                                        [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords"
+                                        [clearOnBackspace]="false" (change)="changeNoOfRecord()">
+                                    </ng-select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="paginations_list pull-right">
+                            <ul>
+                                <li class="record" *ngIf="paginationRequest.noOfRecordPerPageArray.length > 0">
+                                    <ng-select class="form-control1" [items]="paginationResponse.pageArray"
+                                        bindLabel="name" bindValue="id" placeholder="Select Page"
+                                        [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.pageNumber"
+                                        [clearOnBackspace]="false" (change)="changePage()">
+                                    </ng-select>
+                                </li>
+                                <li class="prev">
+                                    <button class="btn btn-primary" [disabled]="paginationResponse.first"
+                                        (click)="getPreviousData()">
+                                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li class="pagination-number"><a>
+                                        {{+paginationResponse.startPos}}-{{
+                                              +paginationResponse.endPos}} </a></li>
+                                <li class="next">
+                                    <button class="btn btn-primary" [disabled]="paginationResponse.last"
+                                        (click)="getNextData()">
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- pagnation design end -->
+                </div>
+                <!-- /Recent Orders -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Page Wrapper -->
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="display: block !important;">
+                <button type="button" class="close" (click)="closeModel()">&times;</button>
+                <h4 class="modal-title" *ngIf="type==='add'">Add Bank</h4>
+                <h4 class="modal-title" *ngIf="type==='edit'">Update Bank</h4>
+                <h4 class="modal-title" *ngIf="type==='view'">View Bank</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankName'
+                        [readonly]="type==='view'">
+                </div>
+                <ng-container *ngIf="type==='view'; else elseBlock;">
+                    <div class="form-group" *ngIf="bankObj.bankType && bankObj.bankType.bankTypeName">
+                        <input class="form-control" type="text" placeholder="Bank Name"
+                            [(ngModel)]='bankObj.bankType.bankTypeName' [readonly]="type==='view'">
+                    </div>
+                </ng-container>
+                <ng-template #elseBlock>
+                    <div class="form-group">
+                        <select class="form-control" [(ngModel)]='bankObj.idOfBankType'>
+                            <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}</option>
+                        </select>
+                    </div>
+                </ng-template>
+                <div class="form-group mb-0">
+                    <button *ngIf="type==='add'" class="btn btn-primary btn-block" (click)="save()">Save</button>
+                    <button *ngIf="type==='edit'" class="btn btn-primary btn-block" (click)="update()">Update</button>
+                    <div style="color: red;"> {{message}}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+</div>
