@@ -10,53 +10,26 @@ import { Deserialize } from 'cerialize';
 declare var $: any;
 
 @Component({
-  selector: 'app-bank',
-  templateUrl: './bank.component.html',
-  styleUrls: ['./bank.component.scss']
+  selector: 'app-transfer',
+  templateUrl: './transfer.component.html',
+  styleUrls: ['./transfer.component.css']
 })
-export class BankComponent implements OnInit {
-
-
-  bankObj: any = {};
-  bankTypeList: any = [];
-  bankList: any = [];
+export class TransferComponent implements OnInit {
+  transfer: any = {};
+  transferList: any = [];
+  type = 'add';
   // pagination
   paginationRequest = new PaginationRequest();
   paginationResponse = new PaginationResponse();
   searchText = '';
-  username = '';
-  type = 'add';
   constructor(public utils: UtilsService, public router: Router, public serverVar: ServerVariableService) { }
 
   ngOnInit() {
-    const user: any = this.utils.getUserDetails();
-    if (!this.utils.isNullUndefinedOrBlank(user)) {
-      this.username = user.userName;
-    }
-    this.getAllBankType();
-    this.getAllBank();
-    // this.paginationRequest.noOfRecordPerPageArray = this.paginationRequest.noOfRecordPerPageArrayAdmin;
+    this.getAllTransfer();
   }
 
-  getAllBankType() {
-    this.bankTypeList = [];
-    this.utils.getMethodAPI(this.serverVar.BANK_TYPE_ALL, (response) => {
-      if (!this.utils.isNullUndefinedOrBlank(response)) {
-        if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
-          if (!this.utils.isNullUndefinedOrBlank(response.data)) {
-            this.bankTypeList = response.data.tblBankType;
-          } else {
-            this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
-          }
-        } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
-        }
-      }
-    });
-  }
-
-  getAllBank() {
-    this.bankList = [];
+  getAllTransfer() {
+    this.transferList = [];
     if (this.searchText) {
       this.paginationRequest.pageNumber = '1';
       this.paginationRequest.searchText = this.searchText;
@@ -68,22 +41,20 @@ export class BankComponent implements OnInit {
       sortOrder: this.paginationRequest.sortOrder,
       searchText: this.paginationRequest.searchText ? this.paginationRequest.searchText.toLowerCase() : undefined
     };
-    // const param = {'jsonOfObject': {},'noOfRecords': 20, 'pageNumber': 1, 'searchText': '','sortColumn': '', 'sortOrder': ''};
-    this.utils.postMethodAPI(this.serverVar.BANK_ALL, param, (response) => {
+    this.utils.postMethodAPI(this.serverVar.TRANSFER_ALL, param, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.paginationResponse = Deserialize(response.data, PaginationResponse);
-            // this.bankList = Deserialize(this.paginationResponse.content, Bank);
-            this.bankList = this.paginationResponse.content; // response.data.content;
+            this.transferList = this.paginationResponse.content; // response.data.content;
             if (this.paginationResponse.content && this.paginationResponse.content.length > 0) {
               this.paginationResponse = this.utils.setPaginationSetting(this.paginationResponse);
             }
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
+            this.utils.CreateNotification('error', 'Error!', 'Transfer Record not  found');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
+          this.utils.CreateNotification('error', 'Error!', 'fails to get transfer records.');
         }
       }
     });
@@ -91,91 +62,88 @@ export class BankComponent implements OnInit {
 
   addModel() {
     $('#myModal').modal('show');
-    this.bankObj = {};
+    this.transfer = {};
     this.type = 'add';
   }
   closeModel() {
     $('#myModal').modal('hide');
-    this.bankObj = {};
+    this.transfer = {};
     this.type = 'add';
   }
 
   save() {
     const param = {
-      jsonOfObject: this.bankObj,
+      jsonOfObject: this.transfer,
       pageNumber: this.paginationRequest.pageNumber,
       noOfRecords: this.paginationRequest.noOfRecords,
     };
-    this.utils.postMethodAPI(this.serverVar.BANK_ADD, param, (response) => {
+    this.utils.postMethodAPI(this.serverVar.TRANSFER_ADD, param, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.closeModel();
             this.utils.CreateNotification('success', 'Success!', response.message);
-            this.getAllBank();
+            this.getAllTransfer();
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'save bankObj fails');
+            this.utils.CreateNotification('error', 'Error!', 'save Transfer fails');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to save bankObj records.');
+          this.utils.CreateNotification('error', 'Error!', 'fails to save transfer records.');
         }
       }
     });
   }
 
-  // view by id bankObj
-  getByIdBank(bank, type) {
-    if (type !== 'edit') {
-      this.type = 'view';
-    }
-    this.utils.getMethodAPI(this.serverVar.BANK_BY_ID + '/' + bank.id, (response) => {
+  // view by id transfer
+  getByIdTransfer(acc) {
+    this.type = 'view';
+    this.utils.getMethodAPI(this.serverVar.TRANSFER_BY_ID + '/' + acc.id, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.utils.CreateNotification('success', 'Success!', response.message);
             $('#myModal').modal('show');
-            this.bankObj = response.data;
+            this.transfer = response.data;
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'bankObj Record by id not found');
+            this.utils.CreateNotification('error', 'Error!', 'Transfer Record by id not found');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bankObj by id.');
+          this.utils.CreateNotification('error', 'Error!', 'fails to get transfer by id.');
         }
       }
     });
   }
 
-  // edit bankObj
-  editbank(bank) {
-    console.log(bank);
+  // edit transfer
+  editTransfer(acc) {
     $('#myModal').modal('show');
     this.type = 'edit';
-    // this.bankObj = { bankName: bank.bankName, id: bank.id };
-    this.getByIdBank(bank, 'edit');
+    this.transfer = acc;
   }
   update() {
-    console.log(this.bankObj);
-    const id = this.bankObj.id;
-    console.log(id);
-    if (this.bankObj.id) {
-      delete this.bankObj.id;
+    const id = this.transfer.id;
+    if (this.transfer.id) {
+      delete this.transfer.id;
       const param = {
-        jsonOfObject: { bankName: this.bankObj.bankName, idOfBankType: this.bankObj.idOfBankType },
+        jsonOfObject: {
+          accountHolderName: this.transfer.accountHolderName, bankName: this.transfer.bankName,
+          accountNumber: this.transfer.accountNumber, amount: this.transfer.amount
+        },
         pageNumber: this.paginationRequest.pageNumber,
         noOfRecords: this.paginationRequest.noOfRecords,
       };
-      this.utils.putMethodAPI(this.serverVar.BANK_UPDATE, param, id, (response) => {
+      this.utils.putMethodAPI(this.serverVar.TRANSFER_UPDATE, param, id, (response) => {
         if (!this.utils.isNullUndefinedOrBlank(response)) {
           if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
             if (!this.utils.isNullUndefinedOrBlank(response.data)) {
               this.closeModel();
               this.utils.CreateNotification('success', 'Success!', response.message);
-              this.getAllBank();
+              this.getAllTransfer();
             } else {
-              this.utils.CreateNotification('error', 'Error!', 'update bankObj fails');
+              this.utils.CreateNotification('error', 'Error!', 'update Transfer fails');
             }
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'fails to update bankObj records.');
+            this.utils.CreateNotification('error', 'Error!', 'fails to update transfer records.');
           }
         }
       });
@@ -184,18 +152,18 @@ export class BankComponent implements OnInit {
     }
   }
 
-  // delete bank
-  deleteBank(bank) {
-    if (bank.id) {
-      const id = bank.id;
-      this.utils.deleteMethodAPI(this.serverVar.BANK_DELETE, id, (response) => {
+  // delete transfer
+  deleteTransfer(acc) {
+    if (acc.id) {
+      const id = acc.id;
+      this.utils.deleteMethodAPI(this.serverVar.TRANSFER_DELETE, id, (response) => {
         if (!this.utils.isNullUndefinedOrBlank(response)) {
           if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
             this.closeModel();
             this.utils.CreateNotification('success', 'Success!', response.message);
-            this.getAllBank();
+            this.getAllTransfer();
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'fails to delete bankObj records.');
+            this.utils.CreateNotification('error', 'Error!', 'fails to delete transfer records.');
           }
         }
       });
@@ -205,8 +173,11 @@ export class BankComponent implements OnInit {
   }
 
   dowloadPDF() {
-    const columns = [{ title: "Bank Name", dataKey: "bankName" }];
-    const rows = this.bankList;
+    const columns = [
+      { title: "Name", dataKey: "accountHolderName" }, { title: "Bank Name", dataKey: "bankName" },
+      { title: "AccountNo", dataKey: "accountNumber" }, { title: "Amount", dataKey: "amount" }
+    ];
+    const rows = this.transferList;
     const doc = new jsPDF('p', 'pt');
     doc.autoTable(columns, rows);
     doc.save('table.pdf');
@@ -215,21 +186,21 @@ export class BankComponent implements OnInit {
   /** start functions for pagination */
   getPreviousData() {
     this.utils.getPreviousData(this.paginationRequest);
-    this.getAllBank();
+    this.getAllTransfer();
   }
   getNextData() {
     this.utils.getNextData(this.paginationRequest);
-    this.getAllBank();
+    this.getAllTransfer();
   }
 
   changePage() {
-    this.getAllBank();
+    this.getAllTransfer();
   }
 
   changeNoOfRecord() {
     console.log('paginationRequest.noOfRecords : ', this.paginationRequest.noOfRecords);
     this.utils.changeNoOfRecord(this.paginationRequest);
-    this.getAllBank();
+    this.getAllTransfer();
   }
   /** end start functions for pagination */
 }
