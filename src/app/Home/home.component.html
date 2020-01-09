@@ -1,10 +1,35 @@
-<!-- Main Wrapper -->
-<div class="main-wrapper">
-
-  <app-header></app-header>
-
+<!-- Pre-loader -->
+<!-- <div id="preloader">
+    <div id="status">
+        <div class="bouncing-loader"><div ></div><div ></div><div ></div></div>
+    </div>
+</div> -->
+<!-- End Preloader-->
+<!-- Begin page -->
+<div class="wrapper">
   <app-left-menu></app-left-menu>
-
-  <router-outlet></router-outlet>
-
+  <div class="content-page">
+    <div class="content">
+      <app-header></app-header>
+      <router-outlet></router-outlet>
+    </div>
+    <!-- Footer Start -->
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6">
+            2020 © Payyed - payyed.com
+          </div>
+          <div class="col-md-6">
+            <div class="text-md-right footer-links d-none d-md-block">
+              <a href="javascript: void(0);">About</a>
+              <a href="javascript: void(0);">Support</a>
+              <a href="javascript: void(0);">Contact Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- end Footer -->
+  </div>
 </div>

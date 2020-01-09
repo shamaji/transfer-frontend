@@ -1,0 +1,4 @@
+/* Table CSS */
+.table thead{ background-color: #f1f3fa }
+.table .table-action{ width: 130px; }
+.table .action-icon { padding: 0 6px; }
