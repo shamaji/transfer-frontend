@@ -30,9 +30,8 @@ export class TransferComponent implements OnInit {
 
   getAllTransfer() {
     this.transferList = [];
-    if (this.searchText) {
+    if (this.paginationRequest.searchText) {
       this.paginationRequest.pageNumber = '1';
-      this.paginationRequest.searchText = this.searchText;
     }
     const param = {
       pageNumber: this.paginationRequest.pageNumber,
@@ -198,7 +197,6 @@ export class TransferComponent implements OnInit {
   }
 
   changeNoOfRecord() {
-    console.log('paginationRequest.noOfRecords : ', this.paginationRequest.noOfRecords);
     this.utils.changeNoOfRecord(this.paginationRequest);
     this.getAllTransfer();
   }

@@ -48,7 +48,7 @@
                             <div class="form-group d-flex align-items-center justify-content-end">
                                 <label class="mb-0 mr-2">Search : </label>
                                 <div>
-                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="searchText" class="form-control" (keyup.enter)="getAllBank()">
+                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="paginationRequest.searchText" class="form-control" (keyup.enter)="getAllBank()">
                                 </div>
                                 <!-- <button class="btn btn-info btn-lg" type="button" (click)="getAllBank(); ">
                                         <i class="fa fa-search"></i>
@@ -94,7 +94,7 @@
                     <div class="pull-left">
                         <div class="record">
                             <div class="pull-left page_dropdown" *ngIf="paginationResponse.pageArray.length > 0">
-                                <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray" bindLabel="name" bindValue="id" placeholder="Select per Page"
+                                <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray" bindLabel="name" bindValue="id" placeholder="Select per Page : "
                                     [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords" [clearOnBackspace]="false"
                                     (change)="changeNoOfRecord()">
                                 </ng-select>

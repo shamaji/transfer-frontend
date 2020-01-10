@@ -19,6 +19,8 @@ const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'transfer', component: TransferComponent },
             { path: 'bank', component: BankComponent },
+            { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
+            { path: 'user', loadChildren: './user/user.module#UserModule', data: { preload: true } },
         ]
     },
 ];

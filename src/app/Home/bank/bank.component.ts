@@ -57,9 +57,8 @@ export class BankComponent implements OnInit {
 
   getAllBank() {
     this.bankList = [];
-    if (this.searchText) {
+    if (this.paginationRequest.searchText) {
       this.paginationRequest.pageNumber = '1';
-      this.paginationRequest.searchText = this.searchText;
     }
     const param = {
       pageNumber: this.paginationRequest.pageNumber,
@@ -147,16 +146,13 @@ export class BankComponent implements OnInit {
 
   // edit bankObj
   editbank(bank) {
-    console.log(bank);
     $('#myModal').modal('show');
     this.type = 'edit';
     // this.bankObj = { bankName: bank.bankName, id: bank.id };
     this.getByIdBank(bank, 'edit');
   }
   update() {
-    console.log(this.bankObj);
     const id = this.bankObj.id;
-    console.log(id);
     if (this.bankObj.id) {
       delete this.bankObj.id;
       const param = {
@@ -227,7 +223,6 @@ export class BankComponent implements OnInit {
   }
 
   changeNoOfRecord() {
-    console.log('paginationRequest.noOfRecords : ', this.paginationRequest.noOfRecords);
     this.utils.changeNoOfRecord(this.paginationRequest);
     this.getAllBank();
   }

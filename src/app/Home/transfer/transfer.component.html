@@ -49,8 +49,8 @@
                             <div class="form-group d-flex align-items-center justify-content-end">
                                 <label class="mb-0 mr-2">Search : </label>
                                 <div>
-                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="searchText"
-                                        class="form-control" (keyup.enter)="getAllBank()">
+                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="paginationRequest.searchText"
+                                        class="form-control" (keyup.enter)="getAllTransfer()">
                                 </div>
                                 <!-- <button class="btn btn-info btn-lg" type="button" (click)="getAllBank(); ">
                                         <i class="fa fa-search"></i>

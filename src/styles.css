@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* pagination css shamaji */
+.paginations_list ul{padding:0;list-style:none}
+.paginations_list ul li.pagination-number a{font-size:14px;vertical-align:middle;font-weight:700;color:#555;padding:8px 10px;line-height:36px}
+.tablefooter_pagination{border-top:1px solid #ddd;padding-top:10px;margin-top:10px}
+.page_dropdown{width:220px;text-align:center}
+.paginations_list{width:auto}
+.paginations_list ul li{float:left}
+.paginations_list ul li.record{width:190px;margin-right:10px}
+.paginations_list ul li.prev{width:45px;text-align:center}
+.paginations_list ul li.pagination-number{width:auto}
+.paginations_list ul li.next{width:45px;text-align:center}
+.selected-list .fa-angle-down,.selected-list .fa-angle-up{color:#777}
+.tablefooter_pagination .dropdown-list ul{max-height:148px!important}
+.card-footer .form-control1{border:none!important;height:auto;padding:0}
+.card-footer .ng-select .ng-clear-wrapper .ng-clear{display:none!important}
+
+.card-footer {
+    padding: 10px;
+    background: #f1f1f1;
+    width: 100%;
+    display: inline-block;
+    margin-bottom: -5px;
+}
+.card-footer .pagination { margin: 0;}
+.card-footer {
+    padding: 10px;
+    background: #f1f1f1;
+    width: 100%;
+    display: inline-block;
+    margin-bottom: -5px;
+}
+.card-footer .pagination { margin: 0;}
+.card-footer select {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    margin: 0 3px;
+}
+
+.card-footer select {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    margin: 0 3px;
+}
+.card-footer .ng-input input[type=text] {
+    border: 0 !important;
+}
+.card-footer .ng-dropdown-panel.ng-select-bottom {
+    top: inherit;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-color: #e6e6e6;
+    margin-top: -1px;
+    bottom: 100%;
+    border: 1px solid #ddd !important;
+}
+.card-footer .ng-input input[type=text] {
+    border: 0 !important;
+}
+.card-footer .ng-dropdown-panel.ng-select-bottom {
+    top: inherit;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-color: #e6e6e6;
+    margin-top: -1px;
+    bottom: 100%;
+    border: 1px solid #ddd !important;
+}
+/* pagination css shamaji end */
