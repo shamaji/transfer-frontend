@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BankComponent } from './bank/bank.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { TransferComponent } from './transfer/transfer.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'work_area', pathMatch: 'full' },
@@ -16,7 +17,10 @@ const routes: Routes = [
         path: 'work_area', component: HomeComponent, children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent },
+            { path: 'transfer', component: TransferComponent },
             { path: 'bank', component: BankComponent },
+            { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
+            { path: 'user', loadChildren: './user/user.module#UserModule', data: { preload: true } },
         ]
     },
 ];
@@ -27,7 +31,8 @@ const routes: Routes = [
         HomeComponent,
         LeftMenuComponent,
         HeaderComponent,
-        BankComponent],
+        BankComponent,
+        TransferComponent],
     imports: [
         CommonModule,
         FormsModule,

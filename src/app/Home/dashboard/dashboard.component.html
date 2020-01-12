@@ -19,21 +19,12 @@
         </div>
     </div>
     <!-- end page title -->
-
-
-
-
 </div>
 <!-- container -->
-
-
-
-
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 
   <div class="content container-fluid">
-
     <!-- Page Header -->
     <div class="page-header">
       <div class="row">
@@ -47,8 +38,7 @@
     </div>
     <!-- /Page Header -->
 
-
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-xl-3 col-sm-6 col-12">
         <div class="card">
           <div class="card-body">
@@ -133,56 +123,12 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <div class="row">
       <div class="col-md-12 d-flex">
-
-        <!-- Recent Orders -->
-        <div class="card card-table flex-fill">
-          <div class="card-header">
-            <h4 class="card-title">Money Transfer</h4>
-            <button class="btn btn-info pull-right" style="margin-top: -30px;" (click)="addModel()"> Add </button>
-            <button class="btn btn-danger pull-right" style="margin-top: -30px;" (click)="dowloadPDF()"> PDF </button>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-center">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th class="text-center">Name</th>
-                    <th class="text-center">Bank Name</th>
-                    <th class="text-center">AccountNo.</th>
-                    <th class="text-right">Amount</th>
-                    <th class="text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let acc of transferList; let i= index;">
-                    <td> {{i+1}}</td>
-                    <td class="text-nowrap"> {{acc.accountHolderName?acc.accountHolderName:'-'}} </td>
-                    <td class="text-nowrap">{{acc.bankName?acc.bankName:'-'}}</td>
-                    <td class="text-center">{{acc.accountNumber?acc.accountNumber:'-'}}</td>
-                    <td class="text-center"> {{acc.amount?acc.amount:'-'}} </td>
-                    <td class="text-center">
-                      <button class="btn btn-info" (click)="getByIdTransfer(acc)">View</button>
-                      <button class="btn btn-primary" (click)="editTransfer(acc)">Edit</button>
-                      <button class="btn btn-danger" (click)="deleteTransfer(acc)">delete</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!-- /Recent Orders -->
-
-      </div>
-      <div class="col-md-12 d-flex">
-
         <!-- Feed Activity -->
-        <!-- <div class="card flex-fill">
+        <div class="card flex-fill">
           <div class="card-header">
             <h4 class="card-title">Feed Activity</h4>
           </div>
@@ -213,54 +159,11 @@
               </li>
             </ul>
           </div>
-        </div> -->
+        </div>
         <!-- /Feed Activity -->
-
       </div>
     </div>
-
 
   </div>
 </div>
 <!-- /Page Wrapper -->
-
-
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header" style="display: block !important;">
-        <button type="button" class="close" (click)="closeModel()">&times;</button>
-        <h4 class="modal-title" *ngIf="type==='add'">Add Money Transfer</h4>
-        <h4 class="modal-title" *ngIf="type==='edit'">Update Money Transfer</h4>
-        <h4 class="modal-title" *ngIf="type==='view'">View Money Transfer</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Name" [(ngModel)]='transfer.accountHolderName' [readonly]="type==='view'">
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Bank name" [(ngModel)]='transfer.bankName' [readonly]="type==='view'">
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Amount" [(ngModel)]='transfer.amount' [readonly]="type==='view'">
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="Account number" [(ngModel)]='transfer.accountNumber' [readonly]="type==='view'">
-        </div>
-        <div class="form-group mb-0">
-          <button *ngIf="type==='add'" class="btn btn-primary btn-block" (click)="save()">Save</button>
-          <button *ngIf="type==='edit'" class="btn btn-primary btn-block" (click)="update()">Update</button>
-          <div style="color: red;"> {{message}}</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-      </div>
-    </div>
-
-  </div>
-</div>

@@ -10,11 +10,11 @@
                             <a href="#">Home</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            Bank
+                            Transfer
                         </li>
                     </ol>
                 </div>
-                <h4 class="page-title">Bank</h4>
+                <h4 class="page-title">Transfer</h4>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h4 class="header-title mb-0">Bank List</h4>
+                            <h4 class="header-title mb-0">Transfer List</h4>
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-right">
@@ -42,13 +42,15 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label>Total: {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}</label>
+                            <label>Total:
+                                {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}</label>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group d-flex align-items-center justify-content-end">
                                 <label class="mb-0 mr-2">Search : </label>
                                 <div>
-                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="paginationRequest.searchText" class="form-control" (keyup.enter)="getAllBank()">
+                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="paginationRequest.searchText"
+                                        class="form-control" (keyup.enter)="getAllTransfer()">
                                 </div>
                                 <!-- <button class="btn btn-info btn-lg" type="button" (click)="getAllBank(); ">
                                         <i class="fa fa-search"></i>
@@ -61,25 +63,31 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Name</th>
                                             <th>Bank Name</th>
+                                            <th>AccountNo.</th>
+                                            <th>Amount</th>
                                             <th class="table-action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let bank of bankList; let i= index;">
+                                        <tr *ngFor="let acc of transferList; let i= index;">
                                             <td> {{i+1}}</td>
-                                            <td>{{bank.bankName?bank.bankName:'-'}}</td>
-                                            <!-- <td class="text-nowrap"> {{bank.bankType?bank.bankType.bankTypeName:'-'}} -->
-                                            <!-- </td> -->
+                                            <td>{{acc.accountHolderName?acc.accountHolderName:'-'}}</td>
+                                            <td class="text-nowrap">{{acc.bankName?acc.bankName:'-'}}</td>
+                                            <td >{{acc.accountNumber?acc.accountNumber:'-'}}</td>
+                                            <td > {{acc.amount?acc.amount:'-'}} </td>
                                             <td class="table-action">
-                                                <!--  -->
-                                                <a href="javascript:void(0);" class="action-icon text-info" (click)="getByIdBank(bank)">
+                                                <a href="javascript:void(0);" class="action-icon text-info"
+                                                    (click)="getByIdTransfer(acc)">
                                                     <i class="mdi mdi-eye"></i>
                                                 </a>
-                                                <a href="javascript:void(0);" class="action-icon text-primary" (click)="editbank(bank)">
+                                                <a href="javascript:void(0);" class="action-icon text-primary"
+                                                    (click)="editTransfer(acc)">
                                                     <i class="mdi mdi-square-edit-outline"></i>
                                                 </a>
-                                                <a href="javascript:void(0);" class="action-icon text-danger" (click)="deleteBank(bank)">
+                                                <a href="javascript:void(0);" class="action-icon text-danger"
+                                                    (click)="deleteTransfer(acc)">
                                                     <i class="mdi mdi-delete"></i>
                                                 </a>
                                             </td>
@@ -94,9 +102,10 @@
                     <div class="pull-left">
                         <div class="record">
                             <div class="pull-left page_dropdown" *ngIf="paginationResponse.pageArray.length > 0">
-                                <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray" bindLabel="name" bindValue="id" placeholder="Select per Page : "
-                                    [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords" [clearOnBackspace]="false"
-                                    (change)="changeNoOfRecord()">
+                                <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray"
+                                    bindLabel="name" bindValue="id" placeholder="Select per Page"
+                                    [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords"
+                                    [clearOnBackspace]="false" (change)="changeNoOfRecord()">
                                 </ng-select>
                             </div>
 
@@ -105,13 +114,15 @@
                     <div class="paginations_list pull-right">
                         <ul>
                             <li class="record" *ngIf="paginationRequest.noOfRecordPerPageArray.length > 0">
-                                <ng-select class="form-control1" [items]="paginationResponse.pageArray" bindLabel="name" bindValue="id" placeholder="Select Page"
-                                    [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.pageNumber" [clearOnBackspace]="false"
+                                <ng-select class="form-control1" [items]="paginationResponse.pageArray" bindLabel="name"
+                                    bindValue="id" placeholder="Select Page" [dropdownPosition]="'bottom'"
+                                    [(ngModel)]="paginationRequest.pageNumber" [clearOnBackspace]="false"
                                     (change)="changePage()">
                                 </ng-select>
                             </li>
                             <li class="prev">
-                                <button class="btn btn-primary" [disabled]="paginationResponse.first" (click)="getPreviousData()">
+                                <button class="btn btn-primary" [disabled]="paginationResponse.first"
+                                    (click)="getPreviousData()">
                                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                                 </button>
                             </li>
@@ -120,7 +131,8 @@
                                     {{+paginationResponse.startPos}}-{{ +paginationResponse.endPos}} </a>
                             </li>
                             <li class="next">
-                                <button class="btn btn-primary" [disabled]="paginationResponse.last" (click)="getNextData()">
+                                <button class="btn btn-primary" [disabled]="paginationResponse.last"
+                                    (click)="getNextData()">
                                     <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                 </button>
                             </li>
@@ -130,9 +142,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 </div>
 <!-- container -->
@@ -144,35 +153,39 @@
         <div class="modal-content">
             <div class="modal-header" style="display: block !important;">
                 <button type="button" class="close" (click)="closeModel()">&times;</button>
-                <h4 class="modal-title" *ngIf="type==='add'">Add Bank</h4>
-                <h4 class="modal-title" *ngIf="type==='edit'">Update Bank</h4>
-                <h4 class="modal-title" *ngIf="type==='view'">View Bank</h4>
+                <h4 class="modal-title" *ngIf="type==='add'">Add Money Transfer</h4>
+                <h4 class="modal-title" *ngIf="type==='edit'">Update Money Transfer</h4>
+                <h4 class="modal-title" *ngIf="type==='view'">View Money Transfer</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Bank Name</label>
-                            <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankName' [readonly]="type==='view'">
+                            <label>Name</label>
+                            <input class="form-control" type="text" placeholder="Name"
+                                [(ngModel)]='transfer.accountHolderName' [readonly]="type==='view'">
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <ng-container *ngIf="type==='view'; else elseBlock;">
-                            <div class="form-group" *ngIf="bankObj.bankType && bankObj.bankType.bankTypeName">
-                                <label>Bank Type</label>
-                                <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankType.bankTypeName' [readonly]="type==='view'">
-                            </div>
-                        </ng-container>
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input class="form-control" type="text" placeholder="Bank name"
+                                [(ngModel)]='transfer.bankName' [readonly]="type==='view'">
+                        </div>
                     </div>
                     <div class="col-md-12">
-                        <ng-template #elseBlock>
-                            <div class="form-group">
-                                <label>Bank Type</label>
-                                <select class="form-control" [(ngModel)]='bankObj.idOfBankType'>
-                                    <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}</option>
-                                </select>
-                            </div>
-                        </ng-template>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input class="form-control" type="text" placeholder="Amount" [(ngModel)]='transfer.amount'
+                                [readonly]="type==='view'">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input class="form-control" type="text" placeholder="Account number"
+                                [(ngModel)]='transfer.accountNumber' [readonly]="type==='view'">
+                        </div>
                     </div>
                 </div>
             </div>

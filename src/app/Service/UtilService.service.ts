@@ -755,7 +755,7 @@ export class UtilsService {
     }
 
     public changeNoOfRecord(pagination: PaginationRequest) {
-        pagination.pageNumber = String(0);
+        pagination.pageNumber = String(1); // String(0);
     }
 
     public setSortByKeyAndOrder(pagination: PaginationRequest, key: string) {
