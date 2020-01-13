@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BankComponent } from './bank/bank.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TransferComponent } from './transfer/transfer.component';
+import { MoneyReceiptComponent } from './money-receipt/money-receipt.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'work_area', pathMatch: 'full' },
@@ -32,7 +33,8 @@ const routes: Routes = [
         LeftMenuComponent,
         HeaderComponent,
         BankComponent,
-        TransferComponent],
+        TransferComponent,
+        MoneyReceiptComponent],
     imports: [
         CommonModule,
         FormsModule,
