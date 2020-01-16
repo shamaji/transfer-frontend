@@ -1,4 +1,61 @@
+/* Border Width Class */
+.bw10{ width: 10%; }
+.bw20{ width: 20%; }
+.bw30{ width: 30%; }
+.bw40{ width: 40%; }
+.bw50{ width: 50%; }
+.bw60{ width: 60%; }
+.bw70{ width: 70%; }
+.bw80{ width: 80%; }
+.bw90{ width: 90%; }
+.bw100{ width: 100%; }
+
 /* Table CSS */
 .table thead{ background-color: #f1f3fa }
 .table .table-action{ width: 130px; }
 .table .action-icon { padding: 0 6px; }
+
+/* Money Receipt */
+.money-receipt{ position: relative; background-color: #fff; padding: 40px; box-shadow: 0 0 6px 0 rgba(0,0,0,.1); border-radius: 4px; }
+.outer-receipt{ border: 2px solid #2F0E26; border-radius: 4px; position: relative; }
+.title-bg{ background-color: #2F0E26; height: 40px; margin-top: 20px; }
+.receipt-title{ background-color: #fff;
+    color: #2F0E26;
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: -2px;
+    border: 2px solid #2F0E26;
+    border-radius: 40px;
+    font-size: 50px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 8px; }
+.inner-receipt{ padding: 20px; background-color: #fff; margin-top: 35px; }
+.service-title{ text-align: center; font-size: 24px; margin-bottom: 25px; }
+.account-date{ display: flex; flex-direction: row; }
+.account-date  .account { flex: 0 0 40%; max-width: 40%; }
+.account-date  .date { flex: 0 0 40%; max-width: 40%; display: flex; }
+.acno-box ul { display: flex;
+    list-style-type: none;
+    height: 40px;
+    padding: 0;
+    margin: 0; }
+.acno-box ul li { border: 1px solid #2F0E26; flex: 0 0 50px; max-width: 50px; }
+.account-details{ display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 30px; }
+.account-details .accountant-name,
+.account-details .money-number, .account-details .mobile-number{ flex: 0 0 100%; max-width: 100%; display: flex; }
+.account-details .bank-name, .account-details .branch-name, .account-details .district-name, .account-details .state-name{ flex: 0 0 50%; max-width: 50%; display: flex; }
+.money-receipt .field-title{     margin-right: 10px;
+    font-size: 16px;
+    color: #2F0E26;
+    font-weight: 600; }
+.money-receipt .field-value{ border-bottom: 2px solid #2F0E26; }
+
+.account-details .accountant-name,
+.account-details .bank-name, 
+.account-details .branch-name, 
+.account-details .district-name, 
+.account-details .state-name,
+.account-details .money-number, 
+.account-details .mobile-number{ margin-bottom: 25px; }

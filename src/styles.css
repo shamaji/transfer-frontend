@@ -16,27 +16,9 @@
 .card-footer .form-control1{border:none!important;height:auto;padding:0}
 .card-footer .ng-select .ng-clear-wrapper .ng-clear{display:none!important}
 
-.card-footer {
-    padding: 10px;
-    background: #f1f1f1;
-    width: 100%;
-    display: inline-block;
-    margin-bottom: -5px;
-}
+
 .card-footer .pagination { margin: 0;}
-.card-footer {
-    padding: 10px;
-    background: #f1f1f1;
-    width: 100%;
-    display: inline-block;
-    margin-bottom: -5px;
-}
-.card-footer .pagination { margin: 0;}
-.card-footer select {
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    margin: 0 3px;
-}
+
 
 .card-footer select {
     padding: 5px 10px;
@@ -55,16 +37,6 @@
     bottom: 100%;
     border: 1px solid #ddd !important;
 }
-.card-footer .ng-input input[type=text] {
-    border: 0 !important;
-}
-.card-footer .ng-dropdown-panel.ng-select-bottom {
-    top: inherit;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-top-color: #e6e6e6;
-    margin-top: -1px;
-    bottom: 100%;
-    border: 1px solid #ddd !important;
-}
+
+
 /* pagination css shamaji end */
