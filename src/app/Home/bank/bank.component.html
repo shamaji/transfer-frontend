@@ -153,7 +153,15 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Bank Name</label>
-                            <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankName' [readonly]="type==='view'">
+                            <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankName' 
+                            [readonly]="type==='view'" [formControl]="bankForm.controls['bankName']" maxlength="100">
+                            <small class="color-red"
+                                    *ngIf="bankForm && bankForm.controls['bankName'].hasError('required') && bankForm.controls['bankName'].touched">
+                                    bank Name Is Required. </small>
+                                <small class="color-red"
+                                    *ngIf="bankForm && !bankForm.controls['bankName'].hasError('required') && !bankForm.controls['bankName'].valid && loginService.bankForm.controls['bankName'].touched">
+                                    Please Enter Valid bank Name
+                                </small>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -168,9 +176,16 @@
                         <ng-template #elseBlock>
                             <div class="form-group">
                                 <label>Bank Type</label>
-                                <select class="form-control" [(ngModel)]='bankObj.idOfBankType'>
+                                <select class="form-control" [(ngModel)]='bankObj.idOfBankType' [formControl]="bankForm.controls['bankTypeName']" maxlength="100">
                                     <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}</option>
                                 </select>
+                                <small class="color-red"
+                                    *ngIf="bankForm && bankForm.controls['bankTypeName'].hasError('required') && bankForm.controls['bankTypeName'].touched">
+                                    bank Type Is Required. </small>
+                                <small class="color-red"
+                                    *ngIf="bankForm && !bankForm.controls['bankTypeName'].hasError('required') && !bankForm.controls['bankTypeName'].valid && loginService.bankForm.controls['bankTypeName'].touched">
+                                    Please Enter Valid bank Type
+                                </small>
                             </div>
                         </ng-template>
                     </div>

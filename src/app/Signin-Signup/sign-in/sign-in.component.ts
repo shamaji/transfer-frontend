@@ -4,6 +4,8 @@ import { UtilsService } from 'src/app/Service/UtilService.service';
 import { LoginRequest } from 'src/app/Modal/Response/LoginRequest';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { Deserialize } from 'cerialize';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidationService } from 'src/app/Service/ValidationService.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,9 +16,21 @@ export class SignInComponent implements OnInit {
 
   user: any = {};
   message = '';
-  constructor(public utils: UtilsService, public serverVar: ServerVariableService, public router: Router) { }
 
-  ngOnInit() { }
+  // login form-control and related variables declaration
+  loginForm: FormGroup;
+
+
+  constructor(public utils: UtilsService, public serverVar: ServerVariableService, public router: Router
+    , public fb: FormBuilder, public validationService: ValidationService) { }
+
+  ngOnInit() {
+    // login form-control property asignment
+    this.loginForm = this.fb.group({
+      username: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_SPACE_NOT_ALLOW)])],
+      password: [null, Validators.compose([Validators.required])]
+    });
+  }
 
   // login() {
   //   if (this.user.username && this.user.password) {
@@ -41,7 +55,7 @@ export class SignInComponent implements OnInit {
   // }
   login() {
     this.message = '';
-    if (this.user.username && this.user.password) {
+    if (this.user.username && this.user.password && this.loginForm.valid) {
       this.user.userName = this.user.username;
       this.utils.CreateNotification('success', 'Success!', 'Login Successfully.');
       localStorage.setItem(this.serverVar.LOCAL_STORAGE_FOR_USER_DETAIL, JSON.stringify(this.user));
@@ -50,5 +64,7 @@ export class SignInComponent implements OnInit {
       this.message = 'Plaese enter details';
     }
   }
+
+  resetLogin() { this.loginForm.reset(); }
 
 }

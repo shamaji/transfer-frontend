@@ -38,5 +38,8 @@
     border: 1px solid #ddd !important;
 }
 
-
 /* pagination css shamaji end */
+
+.color-red {
+    color: #f00f00 !important;
+}
