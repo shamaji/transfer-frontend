@@ -98,22 +98,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer" *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
-                    <div class="pull-left">
-                        <div class="record">
-                            <div class="pull-left page_dropdown" *ngIf="paginationResponse.pageArray.length > 0">
-                                <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray"
-                                    bindLabel="name" bindValue="id" placeholder="Select per Page"
-                                    [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords"
-                                    [clearOnBackspace]="false" (change)="changeNoOfRecord()">
-                                </ng-select>
-                            </div>
-
-                        </div>
+                <div class="card-footer pagination-footer" *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
+                    <div class="record-left" *ngIf="paginationResponse.pageArray.length > 0">
+                        <ng-select [virtualScroll]="true" [items]="paginationRequest.noOfRecordPerPageArray"
+                            bindLabel="name" bindValue="id" placeholder="Select Page"
+                            [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords"
+                            [clearOnBackspace]="false" [clearable]="false" (change)="changeNoOfRecord()">
+                        </ng-select>
                     </div>
-                    <div class="paginations_list pull-right">
+                    <div class="record-right">
                         <ul>
-                            <li class="record" *ngIf="paginationRequest.noOfRecordPerPageArray.length > 0">
+                            <li class="pagination-record" *ngIf="paginationRequest.noOfRecordPerPageArray.length > 0">
                                 <ng-select class="form-control1" [items]="paginationResponse.pageArray" bindLabel="name"
                                     bindValue="id" placeholder="Select Page" [dropdownPosition]="'bottom'"
                                     [(ngModel)]="paginationRequest.pageNumber" [clearOnBackspace]="false"
@@ -121,9 +116,9 @@
                                 </ng-select>
                             </li>
                             <li class="prev">
-                                <button class="btn btn-primary" [disabled]="paginationResponse.first"
+                                <button class="btn btn-pagination" [disabled]="paginationResponse.first"
                                     (click)="getPreviousData()">
-                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                    <i class=" uil-angle-double-left"></i>
                                 </button>
                             </li>
                             <li class="pagination-number">
@@ -131,9 +126,9 @@
                                     {{+paginationResponse.startPos}}-{{ +paginationResponse.endPos}} </a>
                             </li>
                             <li class="next">
-                                <button class="btn btn-primary" [disabled]="paginationResponse.last"
+                                <button class="btn btn-pagination" [disabled]="paginationResponse.last"
                                     (click)="getNextData()">
-                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    <i class="uil-angle-double-right"></i>
                                 </button>
                             </li>
                         </ul>
