@@ -43,3 +43,4 @@
 .color-red {
     color: #f00f00 !important;
 }
+@import "~@ng-select/ng-select/themes/default.theme.css";
