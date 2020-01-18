@@ -16,13 +16,14 @@
                 </div>
                 <h4 class="page-title">Money Receipt</h4>
             </div>
+            <button class="btn btn-info" (click)="downloadPDF()"> PDF </button>
         </div>
     </div>
     <!-- end page title -->
 
-    <div class="row">
-        <div class="col-lg-10 col-md-12 col-sm-12 col-12">
-            <div class="money-receipt">
+    <div class="row" id="content" #content>
+        <div class="col-lg-10 col-md-12 col-sm-12 col-12" id="editor">
+            <div class="money-receipt" id="contentToConvert">
                 <div class="outer-receipt">
                     <div class="title-bg"></div>
                     <div class="receipt-title">BALAJI</div>

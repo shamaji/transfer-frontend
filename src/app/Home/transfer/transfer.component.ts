@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'src/app/Service/UtilService.service';
 import { Router } from '@angular/router';
-// import jsPDF from 'jspdf';
-// import 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { PaginationRequest } from 'src/app/Modal/PaginationRequest';
 import { PaginationResponse } from 'src/app/Modal/PaginationResponse';
@@ -57,10 +57,10 @@ export class TransferComponent implements OnInit {
             this.bankList = response.data.tblBank;
             this.statusList = response.data.tblTransferStatus;
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
+            // this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
+          // this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
         }
       }
     });
@@ -88,10 +88,10 @@ export class TransferComponent implements OnInit {
               this.paginationResponse = this.utils.setPaginationSetting(this.paginationResponse);
             }
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'Transfer Record not  found');
+            // this.utils.CreateNotification('error', 'Error!', 'Transfer Record not  found');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get transfer records.');
+          // this.utils.CreateNotification('error', 'Error!', 'fails to get transfer records.');
         }
       }
     });
@@ -223,16 +223,16 @@ export class TransferComponent implements OnInit {
     }
   }
 
-  // dowloadPDF() {
-  //   const columns = [
-  //     { title: "Name", dataKey: "accountHolderName" }, { title: "Bank Name", dataKey: "bankName" },
-  //     { title: "AccountNo", dataKey: "accountNumber" }, { title: "Amount", dataKey: "amount" }
-  //   ];
-  //   const rows = this.transferList;
-  //   const doc = new jsPDF('p', 'pt');
-  //   doc.autoTable(columns, rows);
-  //   doc.save('table.pdf');
-  // }
+  dowloadPDF() {
+    const columns = [
+      { title: "Name", dataKey: "accountHolderName" }, { title: "Bank Name", dataKey: "bankName" },
+      { title: "AccountNo", dataKey: "accountNumber" }, { title: "Amount", dataKey: "amount" }
+    ];
+    const rows = this.transferList;
+    const doc = new jsPDF('p', 'pt');
+    doc.autoTable(columns, rows);
+    doc.save('table.pdf');
+  }
 
   /** start functions for pagination */
   getPreviousData() {
