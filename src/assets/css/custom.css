@@ -1,3 +1,6 @@
+body{
+    color: #212529;
+}
 /* Error Message */
 .error-msg{ font-size: 13px; color: #fa6767; }
 /* Border Width Class */
@@ -17,13 +20,14 @@
 .table .table-action{ width: 130px; }
 .table .table-action.width150px{ width: 150px; }
 .table .action-icon { padding: 0 6px; }
+.table tbody tr td { color: #212529; }
 
 /* Money Receipt */
 .money-receipt{ position: relative; background-color: #fff; padding: 40px; box-shadow: 0 0 6px 0 rgba(0,0,0,.1); border-radius: 4px; }
 .outer-receipt{ border: 2px solid #2F0E26; border-radius: 4px; position: relative; }
 .title-bg{ background-color: #2F0E26; height: 40px; margin-top: 20px; }
 .receipt-title{ background-color: #fff;
-    color: #2F0E26;
+    color: #f83636;
     position: absolute;
     left: 10%;
     right: 10%;
@@ -35,7 +39,7 @@
     text-align: center;
     letter-spacing: 8px; }
 .inner-receipt{ padding: 20px; background-color: #fff; margin-top: 35px; }
-.service-title{ text-align: center; font-size: 24px; margin-bottom: 25px; }
+.service-title{ text-align: center; font-size: 24px; margin-bottom: 25px; color: #f83636; }
 .account-date{ display: flex; flex-direction: row; }
 .account-date  .account { flex: 0 0 40%; max-width: 40%; }
 .account-date  .date { flex: 0 0 40%; max-width: 40%; display: flex; }
