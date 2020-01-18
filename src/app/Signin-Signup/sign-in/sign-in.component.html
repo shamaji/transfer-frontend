@@ -50,11 +50,15 @@
                 <label class="custom-control-label" for="checkbox-signin">Remember me</label>
               </div>
             </div>
-            <div class="form-group mb-0 text-center">
+            <div class="form-group text-center">
               <button class="btn btn-primary btn-block" (click)="login()" type="submit">
                 <i class="mdi mdi-login"></i> Log In </button>
-              <div style="color: red;">{{message}}</div>
+              <!-- <div style="color: red;">{{message}}</div> -->
             </div>
+
+            <div class="alert alert-danger" role="alert">
+              {{message}}
+          </div>
             
           <!-- Footer-->
           <footer class="footer footer-alt">
