@@ -7,6 +7,8 @@ import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { PaginationRequest } from 'src/app/Modal/PaginationRequest';
 import { PaginationResponse } from 'src/app/Modal/PaginationResponse';
 import { Deserialize } from 'cerialize';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ValidationService } from 'src/app/Service/ValidationService.service';
 declare var $: any;
 
 @Component({
@@ -26,7 +28,10 @@ export class BankComponent implements OnInit {
   searchText = '';
   username = '';
   type = 'add';
-  constructor(public utils: UtilsService, public router: Router, public serverVar: ServerVariableService) { }
+  // transfer form-control
+  bankForm: FormGroup;
+  constructor(public utils: UtilsService, public router: Router, public serverVar: ServerVariableService
+    , public fb: FormBuilder, public validationService: ValidationService) { }
 
   ngOnInit() {
     const user: any = this.utils.getUserDetails();
@@ -35,7 +40,16 @@ export class BankComponent implements OnInit {
     }
     this.getAllBankType();
     this.getAllBank();
+    this.resetFormValidation();
     // this.paginationRequest.noOfRecordPerPageArray = this.paginationRequest.noOfRecordPerPageArrayAdmin;
+  }
+
+  resetFormValidation() {
+    // login form-control property asignment
+    this.bankForm = this.fb.group({
+      bankName: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_SPACE_AND_SPACIAL_CHARACTER_NOT_ALLOW)])],
+      bankTypeName: [null, Validators.compose([Validators.required])]
+    });
   }
 
   getAllBankType() {
@@ -100,26 +114,28 @@ export class BankComponent implements OnInit {
   }
 
   save() {
-    const param = {
-      jsonOfObject: this.bankObj,
-      pageNumber: this.paginationRequest.pageNumber,
-      noOfRecords: this.paginationRequest.noOfRecords,
-    };
-    this.utils.postMethodAPI(this.serverVar.BANK_ADD, param, (response) => {
-      if (!this.utils.isNullUndefinedOrBlank(response)) {
-        if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
-          if (!this.utils.isNullUndefinedOrBlank(response.data)) {
-            this.closeModel();
-            this.utils.CreateNotification('success', 'Success!', response.message);
-            this.getAllBank();
+    if (this.bankForm.valid) {
+      const param = {
+        jsonOfObject: this.bankObj,
+        pageNumber: this.paginationRequest.pageNumber,
+        noOfRecords: this.paginationRequest.noOfRecords,
+      };
+      this.utils.postMethodAPI(this.serverVar.BANK_ADD, param, (response) => {
+        if (!this.utils.isNullUndefinedOrBlank(response)) {
+          if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
+            if (!this.utils.isNullUndefinedOrBlank(response.data)) {
+              this.closeModel();
+              this.utils.CreateNotification('success', 'Success!', response.message);
+              this.getAllBank();
+            } else {
+              this.utils.CreateNotification('error', 'Error!', 'save bankObj fails');
+            }
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'save bankObj fails');
+            this.utils.CreateNotification('error', 'Error!', 'fails to save bankObj records.');
           }
-        } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to save bankObj records.');
         }
-      }
-    });
+      });
+    }
   }
 
   // view by id bankObj
@@ -152,31 +168,33 @@ export class BankComponent implements OnInit {
     this.getByIdBank(bank, 'edit');
   }
   update() {
-    const id = this.bankObj.id;
-    if (this.bankObj.id) {
-      delete this.bankObj.id;
-      const param = {
-        jsonOfObject: { bankName: this.bankObj.bankName, idOfBankType: this.bankObj.idOfBankType },
-        pageNumber: this.paginationRequest.pageNumber,
-        noOfRecords: this.paginationRequest.noOfRecords,
-      };
-      this.utils.putMethodAPI(this.serverVar.BANK_UPDATE, param, id, (response) => {
-        if (!this.utils.isNullUndefinedOrBlank(response)) {
-          if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
-            if (!this.utils.isNullUndefinedOrBlank(response.data)) {
-              this.closeModel();
-              this.utils.CreateNotification('success', 'Success!', response.message);
-              this.getAllBank();
+    if (this.bankForm.valid) {
+      const id = this.bankObj.id;
+      if (this.bankObj.id) {
+        delete this.bankObj.id;
+        const param = {
+          jsonOfObject: { bankName: this.bankObj.bankName, idOfBankType: this.bankObj.idOfBankType },
+          pageNumber: this.paginationRequest.pageNumber,
+          noOfRecords: this.paginationRequest.noOfRecords,
+        };
+        this.utils.putMethodAPI(this.serverVar.BANK_UPDATE, param, id, (response) => {
+          if (!this.utils.isNullUndefinedOrBlank(response)) {
+            if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
+              if (!this.utils.isNullUndefinedOrBlank(response.data)) {
+                this.closeModel();
+                this.utils.CreateNotification('success', 'Success!', response.message);
+                this.getAllBank();
+              } else {
+                this.utils.CreateNotification('error', 'Error!', 'update bankObj fails');
+              }
             } else {
-              this.utils.CreateNotification('error', 'Error!', 'update bankObj fails');
+              this.utils.CreateNotification('error', 'Error!', 'fails to update bankObj records.');
             }
-          } else {
-            this.utils.CreateNotification('error', 'Error!', 'fails to update bankObj records.');
           }
-        }
-      });
-    } else {
-      this.utils.CreateNotification('error', 'Error!', 'Update Id Not Found.');
+        });
+      } else {
+        this.utils.CreateNotification('error', 'Error!', 'Update Id Not Found.');
+      }
     }
   }
 

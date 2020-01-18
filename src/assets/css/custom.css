@@ -1,3 +1,5 @@
+/* Error Message */
+.error-msg{ font-size: 13px; color: #fa6767; }
 /* Border Width Class */
 .bw10{ width: 10%; }
 .bw20{ width: 20%; }
@@ -13,6 +15,7 @@
 /* Table CSS */
 .table thead{ background-color: #f1f3fa }
 .table .table-action{ width: 130px; }
+.table .table-action.width150px{ width: 150px; }
 .table .action-icon { padding: 0 6px; }
 
 /* Money Receipt */

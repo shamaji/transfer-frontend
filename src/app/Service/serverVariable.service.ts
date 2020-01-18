@@ -19,6 +19,7 @@ export class ServerVariableService {
   TRANSFER_BY_ID = 'transfer/getTransferById';
   TRANSFER_UPDATE = 'transfer/updateTransfer';
   TRANSFER_DELETE = 'transfer/deleteTransferById';
+  TRANSFER_BANKS = 'transfer/getAllDropDownDataForCreateTransferForm';
   BANK_TYPE_ALL = 'bank/getAllDropDownDataForCreateBankForm'; // GET https://umeshbackend.herokuapp.com/api/banktype/getAll
   BANK_ALL = 'bank/lazzyLoadingForBank'; // GET https://umeshbackend.herokuapp.com/api/bank/getAll
   BANK_BY_ID = 'bank/getBankById'; // GET https://umeshbackend.herokuapp.com/api/bank/getBankById/111

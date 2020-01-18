@@ -5,7 +5,7 @@ import { HomeComponent } from './home.component';
 import { CommonModule } from '@angular/common';
 import { LeftMenuComponent } from './left-menu/left-menu.component';
 import { HeaderComponent } from './header/header.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BankComponent } from './bank/bank.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -20,7 +20,7 @@ const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'transfer', component: TransferComponent },
             { path: 'bank', component: BankComponent },
-            { path: 'money-receipt', component: MoneyReceiptComponent },
+            { path: 'money-receipt/:id', component: MoneyReceiptComponent },
             { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
             { path: 'user', loadChildren: './user/user.module#UserModule', data: { preload: true } },
         ]
@@ -39,6 +39,7 @@ const routes: Routes = [
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpClientModule,
         RouterModule.forChild(routes),
         NgSelectModule
