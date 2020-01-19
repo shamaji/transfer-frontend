@@ -2,19 +2,22 @@
 <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item">
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            Transfer
-                        </li>
-                    </ol>
+        <div class="col-md-12 col-sm-12 col-12">
+            <div class="breadcrumb-btn">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Transfer
+                    </li>
+                </ol>
+                <div class="buttongroup">
+                    <button type="button" class="btn btn-outline-primary mr-1" (click)="addModel()">
+                        <i class="uil-plus mr-1"></i>ADD</button>
+                    <button type="button" class="btn btn-outline-warning" (click)="dowloadPDF()">
+                        <i class="uil-file-download-alt mr-1"></i>PDF</button>
                 </div>
-                <h4 class="page-title">Transfer</h4>
             </div>
         </div>
     </div>
@@ -23,41 +26,21 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h4 class="header-title mb-0">Transfer List</h4>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-right">
-                                <button type="button" class="btn btn-outline-primary mr-1" (click)="addModel()">
-                                    <i class="uil-plus mr-1"></i>ADD</button>
-                                <button type="button" class="btn btn-outline-warning" (click)="dowloadPDF()">
-                                    <i class="uil-file-download-alt mr-1"></i>PDF</button>
-                            </div>
-                        </div>
-                        <!-- end col-->
+                <div class="card-header search-header">
+                    <div class="">
+                        <h4 class="header-title mb-0">Transfer List </h4>
+                        <span>( Total:
+                            {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}
+                            )</span>
+                    </div>
+                    <div class="search-total">
+                        <input id="searchText" type="text" placeholder="Search"
+                            [(ngModel)]="paginationRequest.searchText" class="form-control"
+                            (keyup.enter)="getAllTransfer()">
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label>Total:
-                                {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}</label>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group d-flex align-items-center justify-content-end">
-                                <label class="mb-0 mr-2">Search : </label>
-                                <div>
-                                    <input id="searchText" type="text" placeholder="Search"
-                                        [(ngModel)]="paginationRequest.searchText" class="form-control"
-                                        (keyup.enter)="getAllTransfer()">
-                                </div>
-                                <!-- <button class="btn btn-info btn-lg" type="button" (click)="getAllBank(); ">
-                                        <i class="fa fa-search"></i>
-                                    </button> -->
-                            </div>
-                        </div>
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered table-sm">
@@ -80,7 +63,7 @@
                                             <td> {{acc.amount?acc.amount:'-'}} </td>
                                             <td class="table-action width150px">
                                                 <a href="javascript:void(0);" class="action-icon text-warning"
-                                                    (click)="viewSlip(acc.id)"> 
+                                                    (click)="viewSlip(acc.id)">
                                                     <i class="fa fa-share"></i>
                                                 </a>
                                                 <a href="javascript:void(0);" class="action-icon text-info"
@@ -103,12 +86,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer pagination-footer" *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
+                <div class="card-footer pagination-footer"
+                    *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
                     <div class="record-left" *ngIf="paginationResponse.pageArray.length > 0">
                         <ng-select [virtualScroll]="true" [items]="paginationRequest.noOfRecordPerPageArray"
-                            bindLabel="name" bindValue="id" placeholder="Select Page"
-                            [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords"
-                            [clearOnBackspace]="false" [clearable]="false" (change)="changeNoOfRecord()">
+                            bindLabel="name" bindValue="id" placeholder="Select Page" [dropdownPosition]="'bottom'"
+                            [(ngModel)]="paginationRequest.noOfRecords" [clearOnBackspace]="false" [clearable]="false"
+                            (change)="changeNoOfRecord()">
                         </ng-select>
                     </div>
                     <div class="record-right">
@@ -148,7 +132,7 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="display: block !important;">
@@ -171,7 +155,7 @@
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['name'].hasError('required') && !transferForm.controls['name'].valid && loginService.transferForm.controls['name'].touched">
                                 Please Enter Valid name
-                        </span>
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -196,7 +180,7 @@
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['bankName'].hasError('required') && !transferForm.controls['bankName'].valid && loginService.transferForm.controls['bankName'].touched">
                                 Please Enter Valid bank Name
-                        </span>
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -211,22 +195,22 @@
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['amount'].hasError('required') && !transferForm.controls['amount'].valid && loginService.transferForm.controls['amount'].touched">
                                 Please Enter Valid amount
-                        </span>
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Account Number</label>
                             <input class="form-control" type="text" placeholder="Account number"
-                                [(ngModel)]='transfer.accountNumber' [readonly]="type==='view'" [formControl]="transferForm.controls['accNo']"
-                                maxlength="20">
+                                [(ngModel)]='transfer.accountNumber' [readonly]="type==='view'"
+                                [formControl]="transferForm.controls['accNo']" maxlength="20">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['accNo'].hasError('required') && transferForm.controls['accNo'].touched">
                                 account Number Is Required. </span>
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['accNo'].hasError('required') && !transferForm.controls['accNo'].valid && loginService.transferForm.controls['accNo'].touched">
                                 Please Enter Valid account number
-                        </span>
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -2,29 +2,23 @@
 <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item">
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            Money Receipt
-                        </li>
-                    </ol>
+        <div class="col-md-12 col-sm-12 col-12">
+            <div class="breadcrumb-btn">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Money Receipt
+                    </li>
+                </ol>
+                <div class="buttongroup">
+                    <button type="button" class="btn btn-info" (click)="downloadPDF()"> <i class="uil-file-download-alt mr-1"></i>PDF </button>
                 </div>
-                <h4 class="page-title">Money Receipt</h4>
             </div>
-           
         </div>
     </div>
     <!-- end page title -->
-    <div class="row">
-        <div class="col-md-12 mb-4">
-            <button class="btn btn-info" (click)="downloadPDF()"> PDF </button>
-        </div>
-    </div>
     <div class="row" id="content" #content>
         
         <div class="col-lg-10 col-md-12 col-sm-12 col-12" id="editor">

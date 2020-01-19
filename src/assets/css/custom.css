@@ -22,12 +22,29 @@ body{
 .bw90{ width: 90%; }
 .bw100{ width: 100%; }
 
+/* Breadcrumbs CSS */
+.breadcrumb-btn{ 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+.breadcrumb-btn .breadcrumb{ 
+    padding: 0;
+    margin: 0;
+}
+.search-header{     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; }
+
 /* Table CSS */
 .table thead{ background-color: #f1f3fa }
 .table .table-action{ width: 130px; }
 .table .table-action.width150px{ width: 150px; }
 .table .action-icon { padding: 0 6px; }
-.table tbody tr td { color: #212529; }
+.table thead tr th, .table tbody tr td { color: #212529; }
 
 /* Money Receipt */
 .money-receipt{ position: relative; background-color: #fff; padding: 40px; box-shadow: 0 0 6px 0 rgba(0,0,0,.1); border-radius: 4px; }

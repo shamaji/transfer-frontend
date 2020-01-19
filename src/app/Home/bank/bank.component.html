@@ -2,19 +2,22 @@
 <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item">
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            Bank
-                        </li>
-                    </ol>
+        <div class="col-md-12 col-sm-12 col-12">
+            <div class="breadcrumb-btn">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Bank
+                    </li>
+                </ol>
+                <div class="buttongroup">
+                    <button type="button" class="btn btn-outline-primary mr-1" (click)="addModel()">
+                        <i class="uil-plus mr-1"></i>ADD</button>
+                    <button type="button" class="btn btn-outline-warning" (click)="dowloadPDF()">
+                        <i class="uil-file-download-alt mr-1"></i>PDF</button>
                 </div>
-                <h4 class="page-title">Bank</h4>
             </div>
         </div>
     </div>
@@ -23,38 +26,22 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h4 class="header-title mb-0">Bank List</h4>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-right">
-                                <button type="button" class="btn btn-outline-primary mr-1" (click)="addModel()">
-                                    <i class="uil-plus mr-1"></i>ADD</button>
-                                <button type="button" class="btn btn-outline-warning" (click)="dowloadPDF()">
-                                    <i class="uil-file-download-alt mr-1"></i>PDF</button>
-                            </div>
-                        </div>
-                        <!-- end col-->
+                <div class="card-header search-header">
+                    <div class="">
+                        <h4 class="header-title mb-0">Bank List</h4>
+                        <span>( Total:
+                            {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}
+                            )</span>
                     </div>
+                    <div class="search-total">                        
+                        <input id="searchText" type="text" placeholder="Search"
+                            [(ngModel)]="paginationRequest.searchText" class="form-control"
+                            (keyup.enter)="getAllBank()">
+                    </div>
+
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label>Total: {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}</label>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group d-flex align-items-center justify-content-end">
-                                <label class="mb-0 mr-2">Search : </label>
-                                <div>
-                                    <input id="searchText" type="text" placeholder="Search" [(ngModel)]="paginationRequest.searchText" class="form-control" (keyup.enter)="getAllBank()">
-                                </div>
-                                <!-- <button class="btn btn-info btn-lg" type="button" (click)="getAllBank(); ">
-                                        <i class="fa fa-search"></i>
-                                    </button> -->
-                            </div>
-                        </div>
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 <table class="table table-hover table-bordered table-sm">
@@ -73,13 +60,16 @@
                                             <!-- </td> -->
                                             <td class="table-action">
                                                 <!--  -->
-                                                <a href="javascript:void(0);" class="action-icon text-info" (click)="getByIdBank(bank)">
+                                                <a href="javascript:void(0);" class="action-icon text-info"
+                                                    (click)="getByIdBank(bank)">
                                                     <i class="mdi mdi-eye"></i>
                                                 </a>
-                                                <a href="javascript:void(0);" class="action-icon text-primary" (click)="editbank(bank)">
+                                                <a href="javascript:void(0);" class="action-icon text-primary"
+                                                    (click)="editbank(bank)">
                                                     <i class="mdi mdi-square-edit-outline"></i>
                                                 </a>
-                                                <a href="javascript:void(0);" class="action-icon text-danger" (click)="deleteBank(bank)">
+                                                <a href="javascript:void(0);" class="action-icon text-danger"
+                                                    (click)="deleteBank(bank)">
                                                     <i class="mdi mdi-delete"></i>
                                                 </a>
                                             </td>
@@ -90,23 +80,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer pagination-footer" *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
+                <div class="card-footer pagination-footer"
+                    *ngIf="paginationResponse.totalElements > paginationRequest.minimumPerPage">
                     <div class="record-left" *ngIf="paginationResponse.pageArray.length > 0">
-                        <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray" bindLabel="name" bindValue="id" placeholder="Select per Page : "
-                            [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords" [clearOnBackspace]="false"
-                            (change)="changeNoOfRecord()">
+                        <ng-select class="form-control1" [items]="paginationRequest.noOfRecordPerPageArray"
+                            bindLabel="name" bindValue="id" placeholder="Select per Page : "
+                            [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.noOfRecords"
+                            [clearOnBackspace]="false" (change)="changeNoOfRecord()">
                         </ng-select>
                     </div>
                     <div class="record-right">
                         <ul>
                             <li class="pagination-record" *ngIf="paginationRequest.noOfRecordPerPageArray.length > 0">
-                                <ng-select class="form-control1" [items]="paginationResponse.pageArray" bindLabel="name" bindValue="id" placeholder="Select Page"
-                                    [dropdownPosition]="'bottom'" [(ngModel)]="paginationRequest.pageNumber" [clearOnBackspace]="false"
+                                <ng-select class="form-control1" [items]="paginationResponse.pageArray" bindLabel="name"
+                                    bindValue="id" placeholder="Select Page" [dropdownPosition]="'bottom'"
+                                    [(ngModel)]="paginationRequest.pageNumber" [clearOnBackspace]="false"
                                     (change)="changePage()">
                                 </ng-select>
                             </li>
                             <li class="prev">
-                                <button class="btn btn-pagination" [disabled]="paginationResponse.first" (click)="getPreviousData()">
+                                <button class="btn btn-pagination" [disabled]="paginationResponse.first"
+                                    (click)="getPreviousData()">
                                     <i class=" uil-angle-double-left"></i>
                                 </button>
                             </li>
@@ -115,7 +109,8 @@
                                     {{+paginationResponse.startPos}}-{{ +paginationResponse.endPos}} </a>
                             </li>
                             <li class="next">
-                                <button class="btn btn-pagination" [disabled]="paginationResponse.last" (click)="getNextData()">
+                                <button class="btn btn-pagination" [disabled]="paginationResponse.last"
+                                    (click)="getNextData()">
                                     <i class="uil-angle-double-right"></i>
                                 </button>
                             </li>
@@ -130,7 +125,7 @@
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="display: block !important;">
@@ -144,22 +139,24 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Bank Name</label>
-                            <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankName' 
-                            [readonly]="type==='view'" [formControl]="bankForm.controls['bankName']" maxlength="100">
+                            <input class="form-control" type="text" placeholder="Bank Name"
+                                [(ngModel)]='bankObj.bankName' [readonly]="type==='view'"
+                                [formControl]="bankForm.controls['bankName']" maxlength="100">
                             <span class="error-msg"
-                                    *ngIf="bankForm && bankForm.controls['bankName'].hasError('required') && bankForm.controls['bankName'].touched">
-                                    bank Name Is Required. </span>
-                                <span class="error-msg"
-                                    *ngIf="bankForm && !bankForm.controls['bankName'].hasError('required') && !bankForm.controls['bankName'].valid && loginService.bankForm.controls['bankName'].touched">
-                                    Please Enter Valid bank Name
-                        </span>
+                                *ngIf="bankForm && bankForm.controls['bankName'].hasError('required') && bankForm.controls['bankName'].touched">
+                                bank Name Is Required. </span>
+                            <span class="error-msg"
+                                *ngIf="bankForm && !bankForm.controls['bankName'].hasError('required') && !bankForm.controls['bankName'].valid && loginService.bankForm.controls['bankName'].touched">
+                                Please Enter Valid bank Name
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <ng-container *ngIf="type==='view'; else elseBlock;">
                             <div class="form-group" *ngIf="bankObj.bankType && bankObj.bankType.bankTypeName">
                                 <label>Bank Type</label>
-                                <input class="form-control" type="text" placeholder="Bank Name" [(ngModel)]='bankObj.bankType.bankTypeName' [readonly]="type==='view'">
+                                <input class="form-control" type="text" placeholder="Bank Name"
+                                    [(ngModel)]='bankObj.bankType.bankTypeName' [readonly]="type==='view'">
                             </div>
                         </ng-container>
                     </div>
@@ -167,8 +164,10 @@
                         <ng-template #elseBlock>
                             <div class="form-group">
                                 <label>Bank Type</label>
-                                <select class="form-control" [(ngModel)]='bankObj.idOfBankType' [formControl]="bankForm.controls['bankTypeName']" maxlength="100">
-                                    <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}</option>
+                                <select class="form-control" [(ngModel)]='bankObj.idOfBankType'
+                                    [formControl]="bankForm.controls['bankTypeName']" maxlength="100">
+                                    <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}
+                                    </option>
                                 </select>
                                 <span class="error-msg"
                                     *ngIf="bankForm && bankForm.controls['bankTypeName'].hasError('required') && bankForm.controls['bankTypeName'].touched">
@@ -176,7 +175,7 @@
                                 <span class="error-msg"
                                     *ngIf="bankForm && !bankForm.controls['bankTypeName'].hasError('required') && !bankForm.controls['bankTypeName'].valid && loginService.bankForm.controls['bankTypeName'].touched">
                                     Please Enter Valid bank Type
-                            </span>
+                                </span>
                             </div>
                         </ng-template>
                     </div>
