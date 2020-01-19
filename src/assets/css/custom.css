@@ -1,6 +1,13 @@
 body{
     color: #212529;
 }
+
+.authentication-bg {
+    background-image: url('../images/bg-pattern-light.svg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
 /* Error Message */
 .error-msg{ font-size: 13px; color: #fa6767; }
 /* Border Width Class */

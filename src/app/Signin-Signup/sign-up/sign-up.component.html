@@ -1,87 +1,75 @@
-<section class="auth-fluid-pages pb-0">
-  <div class="auth-fluid">
-    <!-- Auth fluid right content -->
-    <div class="auth-fluid-right text-center">
-      <div class="auth-user-testimonial">
-        <!-- <h2 class="mb-3">I love the color!</h2> -->
-        <p class="lead">
-          <i class="mdi mdi-format-quote-open"></i> Money Transfer and Online Payments .
-          <i class="mdi mdi-format-quote-close"></i>
-        </p>
-        <p>
-          - Payyed
-        </p>
-      </div>
-      <!-- end auth-user-testimonial-->
-    </div>
-    <!-- end Auth fluid right content -->
-    <!--Auth fluid left content -->
-    <div class="auth-fluid-form-box">
-      <div class="align-items-center d-flex h-100">
-        <div class="card-body">
-
-          <!-- Logo -->
-          <div class="auth-brand text-center text-lg-left">
-            <a href="index.html">
-              <span>
-                <img src="assets/images/logo-light.png" alt="" height="18">
-              </span>
-            </a>
-          </div>
-
-          <!-- title-->
-          <h4 class="mt-0">Free Sign Up</h4>
-          <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute</p>
-          
-            <div class="form-group">
-              <label for="fullname">Name</label>
-              <input class="form-control" type="text" id="fullname" placeholder="Enter your name" [(ngModel)]='user.name'>
-            </div>
-            <div class="form-group">
-              <label for="emailaddress">Email ID</label>
-              <input class="form-control" type="text" id="emailaddress" placeholder="Enter your email" [(ngModel)]='user.email'>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input class="form-control" type="text" id="password" placeholder="Enter your password" [(ngModel)]='user.password'>
-            </div>
-            <div class="form-group">
-              <label for="cpassword">Confirm Password</label>
-              <input class="form-control" type="text" id="cpassword" placeholder="Enter your confirm password" [(ngModel)]='user.cpassword'>
-            </div>
-            <div class="form-group">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="checkbox-signup">
-                <label class="custom-control-label" for="checkbox-signup">I accept
-                  <a href="#" class="text-muted">Terms and Conditions</a>
-                </label>
-              </div>
-            </div>
-            <div class="form-group mb-3 text-center">
-              <button class="btn btn-primary btn-block" type="submit" (click)="reg()">
-                <i class="mdi mdi-account-circle"></i> Sign Up </button>
-              
-            </div>
-            <span class="error-msg"> {{message}}</span>
-
-           
-          <!-- Footer-->
-          <footer class="footer footer-alt">
-            <p class="text-muted">Already have account?
-              <a routerLink="../sign-in" class="text-muted ml-1">
-                <b>Log In</b>
+<section class="authentication-bg">
+  <div class="account-pages pt-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5">
+          <div class="card">
+            <!-- Logo-->
+            <div class="card-header pt-4 pb-4 text-center bg-primary">
+              <a href="index.html">
+                <span><img src="assets/images/logo.png" alt="" height="18"></span>
               </a>
-            </p>
-          </footer>
+            </div>
 
-        </div>
-        <!-- end .card-body -->
+            <div class="card-body p-4">
+
+              <!-- <div class="text-center w-75 m-auto">
+                            <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Free Sign Up</h4>
+                            <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute </p>
+                        </div> -->
+
+
+              <div class="form-group">
+                <label for="fullname">Name</label>
+                <input class="form-control" type="text" id="fullname" placeholder="Enter your name"
+                  [(ngModel)]='user.name'>
+              </div>
+              <div class="form-group">
+                <label for="emailaddress">Email ID</label>
+                <input class="form-control" type="text" id="emailaddress" placeholder="Enter your email"
+                  [(ngModel)]='user.email'>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" type="text" id="password" placeholder="Enter your password"
+                  [(ngModel)]='user.password'>
+              </div>
+              <div class="form-group">
+                <label for="cpassword">Confirm Password</label>
+                <input class="form-control" type="text" id="cpassword" placeholder="Enter your confirm password"
+                  [(ngModel)]='user.cpassword'>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="checkbox-signup">
+                  <label class="custom-control-label" for="checkbox-signup">I accept
+                    <a href="#" class="text-muted">Terms and Conditions</a>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group mb-0 text-center">
+                <button class="btn btn-primary" type="submit" (click)="reg()"> Sign Up </button>
+              </div>
+
+              <span class="error-msg"> {{message}}</span>
+            </div> <!-- end card-body -->
+          </div>
+          <!-- end card -->
+
+          <div class="row mt-3">
+            <div class="col-12 text-center">
+              <p class="text-muted">Already have account? <a routerLink="../sign-in" class="text-muted ml-1"><b>Log
+                    In</b></a></p>
+            </div> <!-- end col-->
+          </div>
+          <!-- end row -->
+
+        </div> <!-- end col -->
       </div>
-      <!-- end .align-items-center.d-flex.h-100-->
+      <!-- end row -->
     </div>
-    <!-- end auth-fluid-form-box-->
-
-
+    <!-- end container -->
   </div>
-  <!-- end auth-fluid-->
+  <!-- end page -->
 </section>
