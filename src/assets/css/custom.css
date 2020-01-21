@@ -2,12 +2,20 @@ body{
     color: #212529;
 }
 
+/* Login and Registration */
 .authentication-bg {
     background-image: url('../images/bg-pattern-light.svg');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
 }
+.authentication-bg .card .card-header{ background-color: #E5EDFE; padding: 15px; }
+
+/* Sidebar */
+.left-side-menu .logo { background-color: #fff; }
+.left-side-menu .logo .logo-lg img { height: 56px;; }
+
+
 /* Error Message */
 .error-msg{ font-size: 13px; color: #fa6767; }
 /* Border Width Class */

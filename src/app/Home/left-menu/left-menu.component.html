@@ -5,7 +5,7 @@
         <!-- LOGO -->
         <a  class="logo text-center">
             <span class="logo-lg">
-                <img src="assets/images/logo.png" alt="" height="16" id="side-main-logo">
+                <img src="assets/images/green-logo.png" alt="Logo" height="57px" id="side-main-logo">
             </span>
             <span class="logo-sm">
                 <img src="assets/images/logo_sm.png" alt="" height="16" id="side-sm-main-logo">
@@ -13,33 +13,42 @@
         </a>
 
         <!--- Sidemenu -->
-        <ul class="metismenu side-nav">
+        <ul class="metismenu side-nav mm-show">
 
             <!-- <li class="side-nav-title side-nav-item">Navigation</li> -->
 
             <li class="side-nav-item">
                 <a [routerLink]="['/home/work_area/dashboard']" class="side-nav-link">
-                    <i class="uil-home-alt"></i>
+                    <i class="uil-dashboard"></i>
                     <span> Dashboard </span>
                 </a>
             </li>
             <li class="side-nav-item">
                 <a [routerLink]="['/home/work_area/transfer']" class="side-nav-link">
-                    <i class="uil-store"></i>
+                    <i class="uil-sync"></i>
                     <span> Transfer </span>
                 </a>
             </li>
             <li class="side-nav-item">
                 <a [routerLink]="['/home/work_area/bank']" class="side-nav-link">
-                    <i class="uil-store"></i>
+                    <i class="uil-building"></i>
                     <span> Bank </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a [routerLink]="['/home/work_area/dashboard']" class="side-nav-link">
-                    <i class="uil-store"></i>
+                <a class="side-nav-link">
+                    <i class="uil-clipboard-alt"></i>
                     <span> Report </span>
+                    <span class="menu-arrow"></span>
                 </a>
+                <ul class="side-nav-second-level mm-collapse" aria-expanded="false">
+                    <li>
+                        <a [routerLink]="['/home/work_area/dashboard']">Yearly</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/home/work_area/dashboard']">Monthly</a>
+                    </li>
+                </ul>
             </li>
 
             <!-- <li class="side-nav-item">
