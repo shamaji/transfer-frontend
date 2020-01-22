@@ -13,6 +13,7 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
   username = '';
+  repoertList:any = [];
   constructor(public utils: UtilsService, public router: Router, public serverVar: ServerVariableService) { }
 
   ngOnInit() {
@@ -20,6 +21,27 @@ export class DashboardComponent implements OnInit {
     if (!this.utils.isNullUndefinedOrBlank(user)) {
       this.username = user.userName;
     }
+    this.getAllTransferDashboardReport();
+  }
+
+
+  getAllTransferDashboardReport() {
+    this.repoertList = [];
+    this.utils.getMethodAPI(this.serverVar.TRANSFER_DASH_REPORT, (response) => {
+      if (!this.utils.isNullUndefinedOrBlank(response)) {
+        if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
+          if (!this.utils.isNullUndefinedOrBlank(response.data)) {
+            console.log(response.data);
+            this.repoertList = response.data;
+            console.log('this.repoertList ', this.repoertList);
+          } else {
+            // this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
+          }
+        } else {
+          // this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
+        }
+      }
+    });
   }
 
 }

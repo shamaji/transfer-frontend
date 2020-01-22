@@ -35,8 +35,7 @@
                     </div>
                     <div class="search-total">
                         <input id="searchText" type="text" placeholder="Search"
-                            [(ngModel)]="paginationRequest.searchText" class="form-control"
-                            (keyup.enter)="getAllTransfer()">
+                            [(ngModel)]="paginationRequest.searchText" class="form-control" (keyup)="getAllTransfer()">
                     </div>
                 </div>
                 <div class="card-body">
@@ -47,13 +46,14 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Date</th>
-                                            <th>Slip Number</th>
-                                            <th>Customer Name</th>
-                                            <th>Bank Name</th>
-                                            <th>AccountNo.</th>
-                                            <th>Amount</th>
-                                            <th>Mobile Number</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'transferDate')">Date</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'slipNumber')">Slip Number</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'accountHolderName')">Customer Name</th>
+                                            <th >Bank Name</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'accountNumber')">AccountNo.</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'amount')">Amount</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'mobileNo')">Mobile Number</th>
+                                            <th >Status</th>
                                             <th class="table-action width150px">Action</th>
                                         </tr>
                                     </thead>
@@ -63,10 +63,13 @@
                                             <td>{{acc.transferDate?acc.transferDate:'-'}}</td>
                                             <td>{{acc.slipNumber?acc.slipNumber:'-'}}</td>
                                             <td>{{acc.accountHolderName?acc.accountHolderName:'-'}}</td>
-                                            <td class="text-nowrap">{{acc.bank && acc.bank.bankName?acc.bank.bankName:'-'}}</td>
+                                            <td class="text-nowrap">
+                                                {{acc.bank && acc.bank.bankName?acc.bank.bankName:'-'}}</td>
                                             <td>{{acc.accountNumber?acc.accountNumber:'-'}}</td>
                                             <td> {{acc.amount?acc.amount:'-'}} </td>
                                             <td> {{acc.mobileNo?acc.mobileNo:'-'}} </td>
+                                            <td class="text-nowrap">
+                                                {{acc.status && acc.status.name?acc.status.name:'-'}}</td>
                                             <td class="table-action width150px">
                                                 <a href="javascript:void(0);" class="action-icon text-warning"
                                                     (click)="viewSlip(acc.id)">
@@ -164,16 +167,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input class="form-control" type="text" placeholder="Name"
+                            <label>Customer Name</label>
+                            <input class="form-control" type="text" placeholder="Customer Name"
                                 [(ngModel)]='transfer.accountHolderName' [formControl]="transferForm.controls['name']"
                                 maxlength="100">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['name'].hasError('required') && transferForm.controls['name'].touched">
-                                name Is Required. </span>
+                                Customer Name Is Required. </span>
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['name'].hasError('required') && !transferForm.controls['name'].valid && loginService.transferForm.controls['name'].touched">
-                                Please Enter Valid name
+                                Please Enter Valid Customer Name
                             </span>
                         </div>
                     </div>
@@ -187,10 +190,10 @@
                             </select>
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['bankName'].hasError('required') && transferForm.controls['bankName'].touched">
-                                bank Name Is Required. </span>
+                                Bank Name Is Required. </span>
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['bankName'].hasError('required') && !transferForm.controls['bankName'].valid && loginService.transferForm.controls['bankName'].touched">
-                                Please Enter Valid bank Name
+                                Please Enter Valid Bank Name
                             </span>
                         </div>
                     </div>
@@ -204,10 +207,10 @@
                             </select>
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['status'].hasError('required') && transferForm.controls['status'].touched">
-                                status Is Required. </span>
+                                Status Is Required. </span>
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['status'].hasError('required') && !transferForm.controls['status'].valid && loginService.transferForm.controls['status'].touched">
-                                Please Enter Valid status
+                                Please Enter Valid Status
                             </span>
                         </div>
                     </div>
@@ -218,10 +221,10 @@
                                 [formControl]="transferForm.controls['amount']" maxlength="15">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['amount'].hasError('required') && transferForm.controls['amount'].touched">
-                                amount Is Required. </span>
+                                Amount Is Required. </span>
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['amount'].hasError('required') && !transferForm.controls['amount'].valid && loginService.transferForm.controls['amount'].touched">
-                                Please Enter Valid amount
+                                Please Enter Valid Amount
                             </span>
                         </div>
                     </div>
@@ -233,31 +236,49 @@
                                 maxlength="20">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['accNo'].hasError('required') && transferForm.controls['accNo'].touched">
-                                account Number Is Required. </span>
+                                Account Number Is Required. </span>
                             <span class="error-msg"
                                 *ngIf="transferForm && !transferForm.controls['accNo'].hasError('required') && !transferForm.controls['accNo'].valid && loginService.transferForm.controls['accNo'].touched">
-                                Please Enter Valid account number
+                                Please Enter Valid Account number
                             </span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>PinCode</label>
-                            <input class="form-control" type="text" placeholder="PinCode" [(ngModel)]='transfer.pinNo'>
+                            <input class="form-control" type="text" placeholder="PinCode" [(ngModel)]='transfer.pinNo'
+                                [formControl]="transferForm.controls['pinCode']" maxlength="6">
+                            <span class="error-msg"
+                                *ngIf="transferForm && transferForm.controls['pinCode'].hasError('required') && transferForm.controls['pinCode'].touched">
+                                PinCode Is Required. </span>
+                            <span class="error-msg"
+                                *ngIf="transferForm && !transferForm.controls['pinCode'].hasError('required') && !transferForm.controls['pinCode'].valid && loginService.transferForm.controls['pinCode'].touched">
+                                Please Enter Valid PinCode
+                            </span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Mobile Number</label>
                             <input class="form-control" type="text" placeholder="mobileNo"
-                                [(ngModel)]='transfer.mobileNo'>
+                                [(ngModel)]='transfer.mobileNo' [formControl]="transferForm.controls['mobileNo']"
+                                maxlength="10">
+                            <span class="error-msg"
+                                *ngIf="transferForm && transferForm.controls['mobileNo'].hasError('required') && transferForm.controls['mobileNo'].touched">
+                                Mobile Number Is Required. </span>
+                            <span class="error-msg"
+                                *ngIf="transferForm && !transferForm.controls['mobileNo'].hasError('required') && !transferForm.controls['mobileNo'].valid && loginService.transferForm.controls['mobileNo'].touched">
+                                Please Enter Valid Mobile Number
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button *ngIf="type==='add'" class="btn btn-success" (click)="save()" [disabled]="!transferForm.valid">Save</button>
-                <button *ngIf="type==='edit'" class="btn btn-success" (click)="update()" [disabled]="!transferForm.valid">Update</button>
+                <button *ngIf="type==='add'" class="btn btn-success" (click)="save()"
+                    [disabled]="!transferForm.valid">Save</button>
+                <button *ngIf="type==='edit'" class="btn btn-success" (click)="update()"
+                    [disabled]="!transferForm.valid">Update</button>
                 <button class="btn btn-light" (click)="closeModel()">Close</button>
             </div>
         </div>
@@ -288,7 +309,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Name : </label>
+                            <label>Customer Name : </label>
                             <span>{{transfer.accountHolderName?transfer.accountHolderName:'-'}}</span>
                         </div>
                     </div>

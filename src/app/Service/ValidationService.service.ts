@@ -114,6 +114,7 @@ export class ValidationService {
     PATTERN_FOR_PHONE_NO = '[+]?[0-9]{1,20}$';
     PATTERN_FOR_NUMBER = '^[0-9]*$';
     PATTERN_FOR_PINCODE = '^[0-9]{6}$';
+    PATTERN_FOR_MOBILE = '^[0-9]{10}$';
     PATTERN_FOR_ISD_CODE = '^[0-9]{1,3}$';
     PATTERN_FOR_STD_CODE = '^[0-9]{4,3}$';
     PATTERN_FOR_LANDLINE_NO = '^[0-9]{11}$';

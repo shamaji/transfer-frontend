@@ -37,9 +37,9 @@ export class TransferComponent implements OnInit {
     , public fb: FormBuilder, public validationService: ValidationService) { }
 
   ngOnInit() {
+    this.resetFormValidation();
     this.getAllBank();
     this.getAllTransfer();
-    this.resetFormValidation();
   }
 
   resetFormValidation() {
@@ -49,7 +49,9 @@ export class TransferComponent implements OnInit {
       bankName: [null, Validators.compose([Validators.required])],
       status: [null, Validators.compose([Validators.required])],
       amount: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS_AND_DOT)])],
-      accNo: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS_AND_DOT)])]
+      accNo: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS)])],
+      pinCode: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.PATTERN_FOR_PINCODE)])],
+      mobileNo: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.PATTERN_FOR_MOBILE)])]
     });
   }
   formTouched() {
@@ -58,6 +60,8 @@ export class TransferComponent implements OnInit {
     this.transferForm.controls.status.markAsTouched();
     this.transferForm.controls.amount.markAsTouched();
     this.transferForm.controls.accNo.markAsTouched();
+    this.transferForm.controls.pinCode.markAsTouched();
+    this.transferForm.controls.mobileNo.markAsTouched();
   }
 
   getAllBank() {
@@ -288,6 +292,17 @@ export class TransferComponent implements OnInit {
 
   changeNoOfRecord() {
     this.utils.changeNoOfRecord(this.paginationRequest);
+    this.getAllTransfer();
+  }
+
+  sorting(value, field) {
+    if (value) {
+      this.paginationRequest.sortOrder = 'a';
+    } else {
+      this.paginationRequest.sortOrder = 'd';
+    }
+    this.paginationRequest.sortColumn = field; // createdDateTime
+    // this.utils.changeNoOfRecord(this.paginationRequest);
     this.getAllTransfer();
   }
   /** end start functions for pagination */

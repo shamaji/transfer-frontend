@@ -13,6 +13,10 @@ export class ServerVariableService {
   LOGIN = 'login';
   CUSTOMER = 'customers'; // GET - https://umeshbackend.herokuapp.com/api/customers
 
+  // dashboard api
+  TRANSFER_DASH_REPORT = 'transfer/getTransferDetailsForClientDashboard';
+  // https://umeshbackend.herokuapp.com/api/transfer/getTransferDetailsForClientDashboard
+
   // Transfer api
   TRANSFER_ALL = 'transfer/lazzyLoadingForTransfer'; // GET https://umeshbackend.herokuapp.com/api/transfer/getAll
   TRANSFER_ADD = 'transfer/saveTransfer'; //  https://umeshbackend.herokuapp.com/api/transfer/saveTransfer
