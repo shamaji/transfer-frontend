@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { PaginationRequest } from 'src/app/Modal/PaginationRequest';
 import { PaginationResponse } from 'src/app/Modal/PaginationResponse';
-import { Deserialize } from 'cerialize';
+import { Deserialize, Serialize } from 'cerialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from 'src/app/Service/ValidationService.service';
+import { Transfer } from 'src/app/Modal/Transfer';
 declare var $: any;
 
 @Component({
@@ -17,8 +18,10 @@ declare var $: any;
   styleUrls: ['./transfer.component.css']
 })
 export class TransferComponent implements OnInit {
-  transfer: any = {};
-  transferList: any = [];
+  // transfer: any = {};
+  // transferList: any = [];
+  transfer: any = new Transfer();
+  transferList = new Array<Transfer>();
   bankList: any = [];
   statusList: any = [];
   type = 'add';
@@ -43,6 +46,7 @@ export class TransferComponent implements OnInit {
     this.transferForm = this.fb.group({
       name: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_SPACE_AND_SPACIAL_CHARACTER_NOT_ALLOW)])],
       bankName: [null, Validators.compose([Validators.required])],
+      status: [null, Validators.compose([Validators.required])],
       amount: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS_AND_DOT)])],
       accNo: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS_AND_DOT)])]
     });
@@ -50,12 +54,16 @@ export class TransferComponent implements OnInit {
 
   getAllBank() {
     this.bankList = [];
+    this.statusList = [];
     this.utils.getMethodAPI(this.serverVar.TRANSFER_BANKS, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
+            console.log(response.data);
             this.bankList = response.data.tblBank;
+            console.log('this.bankList ', this.bankList);
             this.statusList = response.data.tblTransferStatus;
+            console.log('this.statusList ', this.statusList);
           } else {
             // this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
           }
@@ -67,14 +75,14 @@ export class TransferComponent implements OnInit {
   }
 
   getAllTransfer() {
-    this.transferList = [];
+    this.transferList = new Array<Transfer>();
     if (this.paginationRequest.searchText) {
       this.paginationRequest.pageNumber = '1';
     }
     const param = {
       pageNumber: this.paginationRequest.pageNumber,
       noOfRecords: this.paginationRequest.noOfRecords,
-      sortColumn: this.paginationRequest.sortColumn,
+      sortColumn: this.paginationRequest.sortColumn, // createdDateTime
       sortOrder: this.paginationRequest.sortOrder,
       searchText: this.paginationRequest.searchText ? this.paginationRequest.searchText.toLowerCase() : undefined
     };
@@ -83,7 +91,8 @@ export class TransferComponent implements OnInit {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.paginationResponse = Deserialize(response.data, PaginationResponse);
-            this.transferList = this.paginationResponse.content; // response.data.content;
+            this.transferList = Deserialize(response.data.content, Transfer); // this.paginationResponse.content;
+            console.log('this.transferList : ', this.transferList);
             if (this.paginationResponse.content && this.paginationResponse.content.length > 0) {
               this.paginationResponse = this.utils.setPaginationSetting(this.paginationResponse);
             }
@@ -99,21 +108,22 @@ export class TransferComponent implements OnInit {
 
   addModel() {
     $('#myModal').modal('show');
-    this.transfer = {};
+    this.transfer = new Transfer();
     this.type = 'add';
     this.resetFormValidation();
   }
   closeModel() {
     $('#myModal').modal('hide');
-    this.transfer = {};
+    this.transfer = new Transfer();
     this.type = 'add';
     this.transferForm.reset();
   }
 
   save() {
+    console.log(this.transfer)
     if (this.transferForm.valid) {
       const param = {
-        jsonOfObject: this.transfer,
+        jsonOfObject: Serialize(this.transfer, Transfer), // this.transfer
         pageNumber: this.paginationRequest.pageNumber,
         noOfRecords: this.paginationRequest.noOfRecords,
       };
@@ -142,16 +152,24 @@ export class TransferComponent implements OnInit {
     this.router.navigate(['home/work_area/money-receipt/' + id]);
   }
 
+  closeViewModel() {
+    $('#viewModal').modal('hide');
+    this.transfer = new Transfer();
+    this.type = 'add';
+  }
   // view by id transfer
   getByIdTransfer(acc) {
+    console.log('acc', acc);
     this.type = 'view';
     this.utils.getMethodAPI(this.serverVar.TRANSFER_BY_ID + '/' + acc.id, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.utils.CreateNotification('success', 'Success!', response.message);
-            $('#myModal').modal('show');
+            $('#viewModal').modal('show');
             this.transfer = response.data;
+            // this.transfer = Deserialize(response.data, Transfer); // response.data;
+            console.log(this.transfer);
           } else {
             this.utils.CreateNotification('error', 'Error!', 'Transfer Record by id not found');
           }
@@ -164,20 +182,27 @@ export class TransferComponent implements OnInit {
 
   // edit transfer
   editTransfer(acc) {
+    console.log('acc', acc);
     $('#myModal').modal('show');
     this.type = 'edit';
     this.transfer = acc;
+    this.transfer.idOfBank = acc.bank.id;
+    this.transfer.idOfStatus = acc.status.id;
+    // this.transfer = Serialize(acc, Transfer); // acc;
+    console.log('edit set this.transfer ', this.transfer);
   }
   update() {
     if (this.transferForm.valid) {
+      const dataObj = { slipNumber: this.transfer.slipNumber, transferDate: this.transfer.transferDate,
+        accountHolderName: this.transfer.accountHolderName, idOfBank: this.transfer.idOfBank,
+        idOfStatus: this.transfer.idOfStatus, accountNumber: this.transfer.accountNumber, amount: this.transfer.amount,
+        pinNo: this.transfer.pinNo, mobileNo: this.transfer.mobileNo
+      };
       const id = this.transfer.id;
       if (this.transfer.id) {
         delete this.transfer.id;
         const param = {
-          jsonOfObject: {
-            accountHolderName: this.transfer.accountHolderName, bankName: this.transfer.bankName,
-            accountNumber: this.transfer.accountNumber, amount: this.transfer.amount
-          },
+          jsonOfObject: dataObj, // Serialize(dataObj, Transfer),
           pageNumber: this.paginationRequest.pageNumber,
           noOfRecords: this.paginationRequest.noOfRecords,
         };
@@ -206,18 +231,20 @@ export class TransferComponent implements OnInit {
   // delete transfer
   deleteTransfer(acc) {
     if (acc.id) {
-      const id = acc.id;
-      this.utils.deleteMethodAPI(this.serverVar.TRANSFER_DELETE, id, (response) => {
-        if (!this.utils.isNullUndefinedOrBlank(response)) {
-          if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
-            this.closeModel();
-            this.utils.CreateNotification('success', 'Success!', response.message);
-            this.getAllTransfer();
-          } else {
-            this.utils.CreateNotification('error', 'Error!', 'fails to delete transfer records.');
+      if (confirm()) {
+        const id = acc.id;
+        this.utils.deleteMethodAPI(this.serverVar.TRANSFER_DELETE, id, (response) => {
+          if (!this.utils.isNullUndefinedOrBlank(response)) {
+            if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
+              this.closeModel();
+              this.utils.CreateNotification('success', 'Success!', response.message);
+              this.getAllTransfer();
+            } else {
+              this.utils.CreateNotification('error', 'Error!', 'fails to delete transfer records.');
+            }
           }
-        }
-      });
+        });
+      }
     } else {
       this.utils.CreateNotification('error', 'Error!', 'Delete Id Not Found.');
     }

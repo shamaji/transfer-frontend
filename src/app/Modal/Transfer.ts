@@ -6,13 +6,17 @@ export class Transfer {
     @deserializeAs('id')
     private _id: string;
 
+    @serializeAs('slipNumber')
+    @deserializeAs('slipNumber')
+    private _slipNumber: number;
+
     @serializeAs('accountHolderName')
     @deserializeAs('accountHolderName')
     private _accountHolderName: string;
 
-    @serializeAs('bankName')
-    @deserializeAs('bankName')
-    private _bankName: string;
+    @serializeAs('idOfBank')
+    @deserializeAs('idOfBank')
+    private _idOfBank: string;
 
     @serializeAs('accountNumber')
     @deserializeAs('accountNumber')
@@ -30,19 +34,38 @@ export class Transfer {
     @deserializeAs('pinNo')
     private _pinNo: string;
 
+    @serializeAs('idOfStatus')
+    @deserializeAs('idOfStatus')
+    private _idOfStatus: string;
+
     @serializeAs('commission')
     @deserializeAs('commission')
     private _commission: number;
 
-    @serializeAs('transferDateTime')
-    @deserializeAs('transferDateTime')
-    private _transferDateTime: Date;
+    @serializeAs('transferDate')
+    @deserializeAs('transferDate')
+    private _transferDate: Date;
+
+    @serializeAs('bank')
+    @deserializeAs('bank')
+    private _bank: any;
+
+    @serializeAs('status')
+    @deserializeAs('status')
+    private _status: any;
 
     public get id(): string {
         return this._id;
     }
     public set id(value: string) {
         this._id = value;
+    }
+
+    public get slipNumber(): number {
+        return this._slipNumber;
+    }
+    public set slipNumber(value: number) {
+        this._slipNumber = value;
     }
 
     public get accountHolderName(): string {
@@ -52,11 +75,11 @@ export class Transfer {
         this._accountHolderName = value;
     }
 
-    public get bankName(): string {
-        return this._bankName;
+    public get idOfBank(): string {
+        return this._idOfBank;
     }
-    public set bankName(value: string) {
-        this._bankName = value;
+    public set idOfBank(value: string) {
+        this._idOfBank = value;
     }
 
     public get accountNumber(): string {
@@ -94,11 +117,32 @@ export class Transfer {
         this._commission = value;
     }
 
-    public get transferDateTime(): Date {
-        return this._transferDateTime;
+    public get idOfStatus(): string {
+        return this._idOfStatus;
     }
-    public set transferDateTime(value: Date) {
-        this._transferDateTime = value;
+    public set idOfStatus(value: string) {
+        this._idOfStatus = value;
+    }
+
+    public get transferDate(): Date {
+        return this._transferDate;
+    }
+    public set transferDate(value: Date) {
+        this._transferDate = value;
+    }
+
+    public get bank(): any {
+        return this._bank;
+    }
+    public set bank(value: any) {
+        this._bank = value;
+    }
+
+    public get status(): any {
+        return this._status;
+    }
+    public set status(value: any) {
+        this._status = value;
     }
 
 }

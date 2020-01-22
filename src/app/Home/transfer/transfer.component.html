@@ -58,7 +58,7 @@
                                         <tr *ngFor="let acc of transferList; let i= index;">
                                             <td> {{i+1}}</td>
                                             <td>{{acc.accountHolderName?acc.accountHolderName:'-'}}</td>
-                                            <td class="text-nowrap">{{acc.bankName?acc.bankName:'-'}}</td>
+                                            <td class="text-nowrap">{{acc.bank && acc.bank.bankName?acc.bank.bankName:'-'}}</td>
                                             <td>{{acc.accountNumber?acc.accountNumber:'-'}}</td>
                                             <td> {{acc.amount?acc.amount:'-'}} </td>
                                             <td class="table-action width150px">
@@ -130,7 +130,7 @@
 </div>
 <!-- container -->
 
-<!-- Modal -->
+<!-- Save/ Update Modal -->
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <!-- Modal content-->
@@ -139,16 +139,29 @@
                 <button type="button" class="close" (click)="closeModel()">&times;</button>
                 <h4 class="modal-title" *ngIf="type==='add'">Add Money Transfer</h4>
                 <h4 class="modal-title" *ngIf="type==='edit'">Update Money Transfer</h4>
-                <h4 class="modal-title" *ngIf="type==='view'">View Money Transfer</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-12" *ngIf="type!=='add'">
+                        <div class="form-group">
+                            <label>Slip Number</label>
+                            <input class="form-control" type="text" placeholder="slipNumber"
+                                [(ngModel)]='transfer.slipNumber' readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Transfer Date</label>
+                            <input class="form-control" type="date" placeholder="date"
+                                [(ngModel)]='transfer.transferDate'>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Name</label>
                             <input class="form-control" type="text" placeholder="Name"
-                                [(ngModel)]='transfer.accountHolderName' [readonly]="type==='view'"
-                                [formControl]="transferForm.controls['name']" maxlength="100">
+                                [(ngModel)]='transfer.accountHolderName' [formControl]="transferForm.controls['name']"
+                                maxlength="100">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['name'].hasError('required') && transferForm.controls['name'].touched">
                                 name Is Required. </span>
@@ -161,19 +174,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Bank Name</label>
-                            <ng-container *ngIf="type==='view'; else elseBlock;">
-                                <input class="form-control" type="text" placeholder="Bank name"
-                                    [(ngModel)]='transfer.bankName' [readonly]="type==='view'"
-                                    [formControl]="transferForm.controls['bankName']" maxlength="100">
-                            </ng-container>
-                            <ng-template #elseBlock>
-                                <select class="form-control" [(ngModel)]='transfer.bankName'
-                                    [formControl]="transferForm.controls['bankName']" maxlength="100">
-                                    <option *ngFor="let bank of bankList;" [value]="bank.bankName">{{bank.bankName}}
-                                    </option>
-                                </select>
-                            </ng-template>
-
+                            <select class="form-control" [(ngModel)]='transfer.idOfBank'
+                                [formControl]="transferForm.controls['bankName']" maxlength="100">
+                                <option *ngFor="let bank of bankList;" [value]="bank.id">{{bank.bankName}}
+                                </option>
+                            </select>
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['bankName'].hasError('required') && transferForm.controls['bankName'].touched">
                                 bank Name Is Required. </span>
@@ -185,10 +190,26 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" [(ngModel)]='transfer.idOfStatus'
+                                [formControl]="transferForm.controls['status']" maxlength="100">
+                                <option *ngFor="let status of statusList;" [value]="status.id">{{status.name}}
+                                </option>
+                            </select>
+                            <span class="error-msg"
+                                *ngIf="transferForm && transferForm.controls['status'].hasError('required') && transferForm.controls['status'].touched">
+                                status Is Required. </span>
+                            <span class="error-msg"
+                                *ngIf="transferForm && !transferForm.controls['status'].hasError('required') && !transferForm.controls['status'].valid && loginService.transferForm.controls['status'].touched">
+                                Please Enter Valid status
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label>Amount</label>
                             <input class="form-control" type="text" placeholder="Amount" [(ngModel)]='transfer.amount'
-                                [readonly]="type==='view'" [formControl]="transferForm.controls['amount']"
-                                maxlength="15">
+                                [formControl]="transferForm.controls['amount']" maxlength="15">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['amount'].hasError('required') && transferForm.controls['amount'].touched">
                                 amount Is Required. </span>
@@ -202,8 +223,8 @@
                         <div class="form-group">
                             <label>Account Number</label>
                             <input class="form-control" type="text" placeholder="Account number"
-                                [(ngModel)]='transfer.accountNumber' [readonly]="type==='view'"
-                                [formControl]="transferForm.controls['accNo']" maxlength="20">
+                                [(ngModel)]='transfer.accountNumber' [formControl]="transferForm.controls['accNo']"
+                                maxlength="20">
                             <span class="error-msg"
                                 *ngIf="transferForm && transferForm.controls['accNo'].hasError('required') && transferForm.controls['accNo'].touched">
                                 account Number Is Required. </span>
@@ -211,6 +232,19 @@
                                 *ngIf="transferForm && !transferForm.controls['accNo'].hasError('required') && !transferForm.controls['accNo'].valid && loginService.transferForm.controls['accNo'].touched">
                                 Please Enter Valid account number
                             </span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>PinCode</label>
+                            <input class="form-control" type="text" placeholder="PinCode" [(ngModel)]='transfer.pinNo'>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input class="form-control" type="text" placeholder="mobileNo"
+                                [(ngModel)]='transfer.mobileNo'>
                         </div>
                     </div>
                 </div>
@@ -223,5 +257,79 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- View Modal -->
+<div id="viewModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block !important;">
+                <button type="button" class="close" (click)="closeViewModel()">&times;</button>
+                <h4 class="modal-title">View Money Transfer</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Slip Number : </label> <span>{{transfer.slipNumber?transfer.slipNumber:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Transfer Date : </label>
+                            <span>{{transfer.transferDate?transfer.transferDate:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Name : </label>
+                            <span>{{transfer.accountHolderName?transfer.accountHolderName:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Bank Name : </label>
+                            <span>{{transfer && transfer.bank && transfer.bank.bankName ? transfer.bank.bankName : '-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Account Number : </label>
+                            <span>{{transfer.accountNumber?transfer.accountNumber:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Amount : </label> <span>{{transfer.amount?transfer.amount:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Commision : </label> <span>{{transfer.commission?transfer.commission:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Mobile Number : </label><span>{{transfer.mobileNo?transfer.mobileNo:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>PinCode : </label> <span>{{transfer.pinNo?transfer.pinNo:'-'}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Status : </label>
+                            <span>{{transfer && transfer.status && transfer.status.name ? transfer.status.name :'-'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" (click)="closeViewModel()">Close</button>
+            </div>
+        </div>
     </div>
 </div>
