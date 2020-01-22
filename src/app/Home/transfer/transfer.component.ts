@@ -29,6 +29,7 @@ export class TransferComponent implements OnInit {
   paginationRequest = new PaginationRequest();
   paginationResponse = new PaginationResponse();
   searchText = '';
+  message = '';
 
   // transfer form-control
   transferForm: FormGroup;
@@ -50,6 +51,13 @@ export class TransferComponent implements OnInit {
       amount: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS_AND_DOT)])],
       accNo: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_NUMBERS_AND_DOT)])]
     });
+  }
+  formTouched() {
+    this.transferForm.controls.name.markAsTouched();
+    this.transferForm.controls.bankName.markAsTouched();
+    this.transferForm.controls.status.markAsTouched();
+    this.transferForm.controls.amount.markAsTouched();
+    this.transferForm.controls.accNo.markAsTouched();
   }
 
   getAllBank() {
@@ -143,6 +151,8 @@ export class TransferComponent implements OnInit {
           }
         }
       });
+    } else {
+      this.formTouched();
     }
   }
 
@@ -193,7 +203,8 @@ export class TransferComponent implements OnInit {
   }
   update() {
     if (this.transferForm.valid) {
-      const dataObj = { slipNumber: this.transfer.slipNumber, transferDate: this.transfer.transferDate,
+      const dataObj = {
+        slipNumber: this.transfer.slipNumber, transferDate: this.transfer.transferDate,
         accountHolderName: this.transfer.accountHolderName, idOfBank: this.transfer.idOfBank,
         idOfStatus: this.transfer.idOfStatus, accountNumber: this.transfer.accountNumber, amount: this.transfer.amount,
         pinNo: this.transfer.pinNo, mobileNo: this.transfer.mobileNo

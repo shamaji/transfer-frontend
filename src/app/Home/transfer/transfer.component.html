@@ -47,20 +47,26 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
+                                            <th>Date</th>
+                                            <th>Slip Number</th>
+                                            <th>Customer Name</th>
                                             <th>Bank Name</th>
                                             <th>AccountNo.</th>
                                             <th>Amount</th>
+                                            <th>Mobile Number</th>
                                             <th class="table-action width150px">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let acc of transferList; let i= index;">
-                                            <td> {{i+1}}</td>
+                                            <td> {{((paginationResponse.startPos )+ i)}} </td>
+                                            <td>{{acc.transferDate?acc.transferDate:'-'}}</td>
+                                            <td>{{acc.slipNumber?acc.slipNumber:'-'}}</td>
                                             <td>{{acc.accountHolderName?acc.accountHolderName:'-'}}</td>
                                             <td class="text-nowrap">{{acc.bank && acc.bank.bankName?acc.bank.bankName:'-'}}</td>
                                             <td>{{acc.accountNumber?acc.accountNumber:'-'}}</td>
                                             <td> {{acc.amount?acc.amount:'-'}} </td>
+                                            <td> {{acc.mobileNo?acc.mobileNo:'-'}} </td>
                                             <td class="table-action width150px">
                                                 <a href="javascript:void(0);" class="action-icon text-warning"
                                                     (click)="viewSlip(acc.id)">
@@ -250,10 +256,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button *ngIf="type==='add'" class="btn btn-success" (click)="save()">Save</button>
-                <button *ngIf="type==='edit'" class="btn btn-success" (click)="update()">Update</button>
+                <button *ngIf="type==='add'" class="btn btn-success" (click)="save()" [disabled]="!transferForm.valid">Save</button>
+                <button *ngIf="type==='edit'" class="btn btn-success" (click)="update()" [disabled]="!transferForm.valid">Update</button>
                 <button class="btn btn-light" (click)="closeModel()">Close</button>
-                <div style="color: red;"> {{message}}</div>
             </div>
         </div>
 
