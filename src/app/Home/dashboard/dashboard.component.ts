@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'src/app/Service/UtilService.service';
 import { Router } from '@angular/router';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+// import jsPDF from 'jspdf';
+// import 'jspdf-autotable';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 declare var $: any;
 

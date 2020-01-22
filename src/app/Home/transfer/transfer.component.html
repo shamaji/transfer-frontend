@@ -137,8 +137,8 @@
 <!-- container -->
 
 <!-- Save/ Update Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
+<div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="display: block !important;">
@@ -148,21 +148,21 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12" *ngIf="type!=='add'">
+                    <div class="col-md-6" *ngIf="type!=='add'">
                         <div class="form-group">
                             <label>Slip Number</label>
                             <input class="form-control" type="text" placeholder="slipNumber"
                                 [(ngModel)]='transfer.slipNumber' readonly>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Transfer Date</label>
                             <input class="form-control" type="date" placeholder="date"
                                 [(ngModel)]='transfer.transferDate'>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Name</label>
                             <input class="form-control" type="text" placeholder="Name"
@@ -177,7 +177,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Bank Name</label>
                             <select class="form-control" [(ngModel)]='transfer.idOfBank'
@@ -194,7 +194,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Status</label>
                             <select class="form-control" [(ngModel)]='transfer.idOfStatus'
@@ -211,7 +211,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Amount</label>
                             <input class="form-control" type="text" placeholder="Amount" [(ngModel)]='transfer.amount'
@@ -225,7 +225,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Account Number</label>
                             <input class="form-control" type="text" placeholder="Account number"
@@ -240,13 +240,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>PinCode</label>
                             <input class="form-control" type="text" placeholder="PinCode" [(ngModel)]='transfer.pinNo'>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Mobile Number</label>
                             <input class="form-control" type="text" placeholder="mobileNo"
@@ -266,7 +266,7 @@
 </div>
 
 <!-- View Modal -->
-<div id="viewModal" class="modal fade" role="dialog">
+<div id="viewModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header" style="display: block !important;">
@@ -275,12 +275,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Slip Number : </label> <span>{{transfer.slipNumber?transfer.slipNumber:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Transfer Date : </label>
                             <span>{{transfer.transferDate?transfer.transferDate:'-'}}</span>
@@ -292,39 +292,39 @@
                             <span>{{transfer.accountHolderName?transfer.accountHolderName:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Bank Name : </label>
                             <span>{{transfer && transfer.bank && transfer.bank.bankName ? transfer.bank.bankName : '-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Account Number : </label>
                             <span>{{transfer.accountNumber?transfer.accountNumber:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Amount : </label> <span>{{transfer.amount?transfer.amount:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Commision : </label> <span>{{transfer.commission?transfer.commission:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Mobile Number : </label><span>{{transfer.mobileNo?transfer.mobileNo:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>PinCode : </label> <span>{{transfer.pinNo?transfer.pinNo:'-'}}</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Status : </label>
                             <span>{{transfer && transfer.status && transfer.status.name ? transfer.status.name :'-'}}</span>
