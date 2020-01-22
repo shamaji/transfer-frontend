@@ -108,13 +108,13 @@ export class TransferComponent implements OnInit {
 
   addModel() {
     $('#myModal').modal('show');
-    this.transfer = {};
+    this.transfer = new Transfer();
     this.type = 'add';
     this.resetFormValidation();
   }
   closeModel() {
     $('#myModal').modal('hide');
-    this.transfer = {};
+    this.transfer = new Transfer();
     this.type = 'add';
     this.transferForm.reset();
   }
@@ -123,7 +123,7 @@ export class TransferComponent implements OnInit {
     console.log(this.transfer)
     if (this.transferForm.valid) {
       const param = {
-        jsonOfObject: this.transfer, // Serialize(this.transfer, Transfer),
+        jsonOfObject: Serialize(this.transfer, Transfer), // this.transfer
         pageNumber: this.paginationRequest.pageNumber,
         noOfRecords: this.paginationRequest.noOfRecords,
       };
@@ -152,6 +152,11 @@ export class TransferComponent implements OnInit {
     this.router.navigate(['home/work_area/money-receipt/' + id]);
   }
 
+  closeViewModel() {
+    $('#viewModal').modal('hide');
+    this.transfer = new Transfer();
+    this.type = 'add';
+  }
   // view by id transfer
   getByIdTransfer(acc) {
     console.log('acc', acc);
@@ -161,9 +166,10 @@ export class TransferComponent implements OnInit {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.utils.CreateNotification('success', 'Success!', response.message);
-            $('#myModal').modal('show');
-            this.transfer = Deserialize(response.data, Transfer); // response.data;
-            console.log(this.transfer)
+            $('#viewModal').modal('show');
+            this.transfer = response.data;
+            // this.transfer = Deserialize(response.data, Transfer); // response.data;
+            console.log(this.transfer);
           } else {
             this.utils.CreateNotification('error', 'Error!', 'Transfer Record by id not found');
           }
@@ -176,21 +182,27 @@ export class TransferComponent implements OnInit {
 
   // edit transfer
   editTransfer(acc) {
+    console.log('acc', acc);
     $('#myModal').modal('show');
     this.type = 'edit';
     this.transfer = acc;
+    this.transfer.idOfBank = acc.bank.id;
+    this.transfer.idOfStatus = acc.status.id;
+    // this.transfer = Serialize(acc, Transfer); // acc;
+    console.log('edit set this.transfer ', this.transfer);
   }
   update() {
     if (this.transferForm.valid) {
-      const dataObj = {
+      const dataObj = { slipNumber: this.transfer.slipNumber, transferDate: this.transfer.transferDate,
         accountHolderName: this.transfer.accountHolderName, idOfBank: this.transfer.idOfBank,
-        idOfStatus: this.transfer.idOfStatus, accountNumber: this.transfer.accountNumber, amount: this.transfer.amount
+        idOfStatus: this.transfer.idOfStatus, accountNumber: this.transfer.accountNumber, amount: this.transfer.amount,
+        pinNo: this.transfer.pinNo, mobileNo: this.transfer.mobileNo
       };
       const id = this.transfer.id;
       if (this.transfer.id) {
         delete this.transfer.id;
         const param = {
-          jsonOfObject: Serialize(dataObj, Transfer),
+          jsonOfObject: dataObj, // Serialize(dataObj, Transfer),
           pageNumber: this.paginationRequest.pageNumber,
           noOfRecords: this.paginationRequest.noOfRecords,
         };

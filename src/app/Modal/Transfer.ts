@@ -46,6 +46,14 @@ export class Transfer {
     @deserializeAs('transferDate')
     private _transferDate: Date;
 
+    @serializeAs('bank')
+    @deserializeAs('bank')
+    private _bank: any;
+
+    @serializeAs('status')
+    @deserializeAs('status')
+    private _status: any;
+
     public get id(): string {
         return this._id;
     }
@@ -121,6 +129,20 @@ export class Transfer {
     }
     public set transferDate(value: Date) {
         this._transferDate = value;
+    }
+
+    public get bank(): any {
+        return this._bank;
+    }
+    public set bank(value: any) {
+        this._bank = value;
+    }
+
+    public get status(): any {
+        return this._status;
+    }
+    public set status(value: any) {
+        this._status = value;
     }
 
 }
