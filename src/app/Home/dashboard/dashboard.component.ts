@@ -13,7 +13,8 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
   username = '';
-  repoertList:any = [];
+  repoertList: any = [];
+  // OPEN("Open"), PENDING("Pending"), CONFIRM("Confirm"), CANCEL("Cancel");
   constructor(public utils: UtilsService, public router: Router, public serverVar: ServerVariableService) { }
 
   ngOnInit() {

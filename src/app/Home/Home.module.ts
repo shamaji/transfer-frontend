@@ -11,6 +11,7 @@ import { BankComponent } from './bank/bank.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TransferComponent } from './transfer/transfer.component';
 import { MoneyReceiptComponent } from './money-receipt/money-receipt.component';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 const routes: Routes = [
     { path: '', redirectTo: 'work_area', pathMatch: 'full' },
@@ -42,7 +43,8 @@ const routes: Routes = [
         ReactiveFormsModule,
         HttpClientModule,
         RouterModule.forChild(routes),
-        NgSelectModule
+        NgSelectModule,
+        DpDatePickerModule
     ],
     providers: [],
     bootstrap: []

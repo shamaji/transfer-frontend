@@ -161,8 +161,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Transfer Date</label>
-                            <input class="form-control" type="date" placeholder="date"
-                                [(ngModel)]='transfer.transferDate'>
+                            <!-- <input class="form-control" type="date" placeholder="date"
+                                [(ngModel)]='transfer.transferDate'> -->
+                                <dp-date-picker [(ngModel)]="transfer.transferDate" [config]="datePickerConfig"></dp-date-picker>  
                         </div>
                     </div>
                     <div class="col-md-6">

@@ -30,6 +30,7 @@ export class TransferComponent implements OnInit {
   paginationResponse = new PaginationResponse();
   searchText = '';
   message = '';
+  datePickerConfig = { format: 'DD-MM-YYYY' };
 
   // transfer form-control
   transferForm: FormGroup;
