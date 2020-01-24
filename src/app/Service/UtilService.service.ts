@@ -526,18 +526,6 @@ export class UtilsService {
         return newArray;
     }
 
-    // to convert date formate compare two dates
-
-    convertDateFormat(dateObj) {
-        const date = new Date();
-        if (isDate(dateObj)) {
-            dateObj.setHours(date.getHours());
-            dateObj.setMinutes(date.getMinutes());
-            dateObj.setSeconds(date.getSeconds());
-            return dateObj;
-        }
-    }
-
     /**
      * This Method Is Use For Remove Blank And Null Key From Object.
      */
@@ -744,6 +732,29 @@ export class UtilsService {
         if (seconds < 10) { diff += ':0' + seconds; } else { diff += ':' + seconds; }
         // diff = hours + ' : ' + minutes + ' : ' + seconds;
         return diff;
+    }
+
+    // to convert date formate compare two dates
+    convertDateFormat(dateObj) {
+        const date = new Date();
+        if (isDate(dateObj)) {
+            dateObj.setHours(date.getHours());
+            dateObj.setMinutes(date.getMinutes());
+            dateObj.setSeconds(date.getSeconds());
+            return dateObj;
+        }
+    }
+
+    // to convert date formate compare two dates
+    dateYYYYMMDD(dateObj) {
+        const date = new Date(dateObj);
+        var dd: any = date.getDate();
+        var mm: any = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+        if (dd < 10) { dd = '0' + dd; }
+        if (mm < 10) { mm = '0' + mm; }
+        var dateStr = yyyy + '-' + mm + '-' + dd;
+        return dateStr;
     }
 
     // .......... Start Pagination Related Methods ...............

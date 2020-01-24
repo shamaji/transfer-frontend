@@ -11,7 +11,9 @@ import { BankComponent } from './bank/bank.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TransferComponent } from './transfer/transfer.component';
 import { MoneyReceiptComponent } from './money-receipt/money-receipt.component';
-import { DpDatePickerModule } from 'ng2-date-picker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BanktypeComponent } from './banktype/banktype.component';
+import { TransfStatusComponent } from './transf-status/transf-status.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'work_area', pathMatch: 'full' },
@@ -21,7 +23,9 @@ const routes: Routes = [
             { path: 'dashboard', component: DashboardComponent },
             { path: 'transfer', component: TransferComponent },
             { path: 'bank', component: BankComponent },
+            { path: 'banktype', component: BanktypeComponent },
             { path: 'money-receipt/:id', component: MoneyReceiptComponent },
+            { path: 'transfer-status', component: TransfStatusComponent },
             { path: 'admin', loadChildren: './admin/admin.module#AdminModule' },
             { path: 'user', loadChildren: './user/user.module#UserModule', data: { preload: true } },
         ]
@@ -35,8 +39,11 @@ const routes: Routes = [
         LeftMenuComponent,
         HeaderComponent,
         BankComponent,
+        BanktypeComponent,
         TransferComponent,
-        MoneyReceiptComponent],
+        MoneyReceiptComponent,
+        TransfStatusComponent,
+        ],
     imports: [
         CommonModule,
         FormsModule,
@@ -44,7 +51,7 @@ const routes: Routes = [
         HttpClientModule,
         RouterModule.forChild(routes),
         NgSelectModule,
-        DpDatePickerModule
+        BsDatepickerModule.forRoot()
     ],
     providers: [],
     bootstrap: []

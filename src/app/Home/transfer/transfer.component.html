@@ -48,19 +48,20 @@
                                             <th>#</th>
                                             <th (click)="flag = !flag; sorting(flag, 'transferDate')">Date</th>
                                             <th (click)="flag = !flag; sorting(flag, 'slipNumber')">Slip Number</th>
-                                            <th (click)="flag = !flag; sorting(flag, 'accountHolderName')">Customer Name</th>
-                                            <th >Bank Name</th>
+                                            <th (click)="flag = !flag; sorting(flag, 'accountHolderName')">Customer Name
+                                            </th>
+                                            <th>Bank Name</th>
                                             <th (click)="flag = !flag; sorting(flag, 'accountNumber')">AccountNo.</th>
                                             <th (click)="flag = !flag; sorting(flag, 'amount')">Amount</th>
                                             <th (click)="flag = !flag; sorting(flag, 'mobileNo')">Mobile Number</th>
-                                            <th >Status</th>
+                                            <th>Status</th>
                                             <th class="table-action width150px">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let acc of transferList; let i= index;">
                                             <td> {{((paginationResponse.startPos )+ i)}} </td>
-                                            <td>{{acc.transferDate?acc.transferDate:'-'}}</td>
+                                            <td>{{!acc.transferDate?'-':acc.transferDate|date:'dd-MM-yyyy'}}</td>
                                             <td>{{acc.slipNumber?acc.slipNumber:'-'}}</td>
                                             <td>{{acc.accountHolderName?acc.accountHolderName:'-'}}</td>
                                             <td class="text-nowrap">
@@ -159,12 +160,14 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group">
                             <label>Transfer Date</label>
-                            <input class="form-control" type="date" placeholder="date"
-                                [(ngModel)]='transfer.transferDate'>
-                                <!-- <dp-date-picker [(ngModel)]="transfer.transferDate" [config]="datePickerConfig"></dp-date-picker>   -->
-                        </div>
+                            <input type="text" class="form-control input-sm" placeholder="Transfer
+                                Date" #fdp="bsDatepicker" bsDatepicker  [(ngModel)]="fromDate"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' , showWeekNumbers: false, containerClass: 'theme-orange' }"
+                                 readonly>
+                            <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                             </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -305,7 +308,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Transfer Date : </label>
-                            <span>{{transfer.transferDate?transfer.transferDate:'-'}}</span>
+                            <span>{{!transfer.transferDate ? '-' : transfer.transferDate|date:'dd-MM-yyyy'}}</span>
                         </div>
                     </div>
                     <div class="col-md-12">

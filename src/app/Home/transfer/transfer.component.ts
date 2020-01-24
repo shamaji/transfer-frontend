@@ -30,7 +30,9 @@ export class TransferComponent implements OnInit {
   paginationResponse = new PaginationResponse();
   searchText = '';
   message = '';
-  datePickerConfig = { format: 'DD-MM-YYYY' };
+  minDate = new Date();
+  maxDate = new Date();
+  fromDate = new Date();
 
   // transfer form-control
   transferForm: FormGroup;
@@ -72,11 +74,8 @@ export class TransferComponent implements OnInit {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
-            console.log(response.data);
             this.bankList = response.data.tblBank;
-            console.log('this.bankList ', this.bankList);
             this.statusList = response.data.tblTransferStatus;
-            console.log('this.statusList ', this.statusList);
           } else {
             // this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
           }
@@ -105,7 +104,6 @@ export class TransferComponent implements OnInit {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.paginationResponse = Deserialize(response.data, PaginationResponse);
             this.transferList = Deserialize(response.data.content, Transfer); // this.paginationResponse.content;
-            console.log('this.transferList : ', this.transferList);
             if (this.paginationResponse.content && this.paginationResponse.content.length > 0) {
               this.paginationResponse = this.utils.setPaginationSetting(this.paginationResponse);
             }
@@ -133,7 +131,7 @@ export class TransferComponent implements OnInit {
   }
 
   save() {
-    console.log(this.transfer)
+    this.transfer.transferDate = this.utils.dateYYYYMMDD(this.fromDate);
     if (this.transferForm.valid) {
       const param = {
         jsonOfObject: Serialize(this.transfer, Transfer), // this.transfer
@@ -161,9 +159,8 @@ export class TransferComponent implements OnInit {
     }
   }
 
-  // get slip by id 
+  // get slip by id
   viewSlip(id) {
-    console.log('slip id : ' + id);
     this.router.navigate(['home/work_area/money-receipt/' + id]);
   }
 
@@ -174,7 +171,6 @@ export class TransferComponent implements OnInit {
   }
   // view by id transfer
   getByIdTransfer(acc) {
-    console.log('acc', acc);
     this.type = 'view';
     this.utils.getMethodAPI(this.serverVar.TRANSFER_BY_ID + '/' + acc.id, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
@@ -184,7 +180,6 @@ export class TransferComponent implements OnInit {
             $('#viewModal').modal('show');
             this.transfer = response.data;
             // this.transfer = Deserialize(response.data, Transfer); // response.data;
-            console.log(this.transfer);
           } else {
             this.utils.CreateNotification('error', 'Error!', 'Transfer Record by id not found');
           }
@@ -197,16 +192,16 @@ export class TransferComponent implements OnInit {
 
   // edit transfer
   editTransfer(acc) {
-    console.log('acc', acc);
     $('#myModal').modal('show');
     this.type = 'edit';
     this.transfer = acc;
     this.transfer.idOfBank = acc.bank.id;
     this.transfer.idOfStatus = acc.status.id;
+    this.fromDate = new Date(this.transfer.transferDate);
     // this.transfer = Serialize(acc, Transfer); // acc;
-    console.log('edit set this.transfer ', this.transfer);
   }
   update() {
+    this.transfer.transferDate = this.utils.dateYYYYMMDD(this.fromDate);
     if (this.transferForm.valid) {
       const dataObj = {
         slipNumber: this.transfer.slipNumber, transferDate: this.transfer.transferDate,

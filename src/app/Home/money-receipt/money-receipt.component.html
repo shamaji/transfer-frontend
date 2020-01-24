@@ -32,15 +32,18 @@
                         </div>
                         <div class="account-date">
                             <div class="account">
-                                <div class="field-title">Account No. : {{transfer.accountNumber}}</div>
+                                <div class="field-title">Account No. : </div>
                             </div>
                             <div class="date">
                                 <div class="field-title">Date : </div>
-                                <div class="">{{transfer.createdDateTime | date:'dd-MM-yyyy'}}</div>
+                                <div class="">{{!transfer.transferDate ? '-' : transfer.transferDate | date:'dd-MM-yyyy'}}</div>
                             </div>
                         </div>
                         <div class="acno-box">
                             <ul>
+                                <!-- <li>{{transfer.accountNumber?transfer.accountNumber:'-'}}</li> -->
+                                <li *ngFor="let no of accNo;" style="text-align: center; padding-top: 8px;">{{no}}</li>
+                                <!-- <li></li>
                                 <li></li>
                                 <li></li>
                                 <li></li>
@@ -51,39 +54,38 @@
                                 <li></li>
                                 <li></li>
                                 <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
+                                <li></li> -->
                             </ul>
                         </div>
                         <div class="account-details">
                             <div class="accountant-name">
                                 <div class="field-title">Accountant Name : </div>
-                                <div class="field-value" style="width: 79%;">{{transfer.accountHolderName}}</div>
+                                <div class="field-value" style="width: 79%;">{{transfer.accountHolderName?transfer.accountHolderName:'-'}}</div>
                             </div>
                             <div class="bank-name">
                                 <div class="field-title">Bank Name :</div>
-                                <div class="field-value" style="width: 65%;">{{transfer.bankName}}</div>
+                                <div class="field-value" style="width: 65%;">
+                                    {{transfer && transfer.bank && transfer.bank.bankName ? transfer.bank.bankName : '-'}}</div>
                             </div>
                             <div class="branch-name">
                                 <div class="field-title">Branch Name :</div>
-                                <div class="field-value" style="width: 68%;">Bhatar, Surat.</div>
+                                <div class="field-value" style="width: 68%;"> - </div>
                             </div>
                             <div class="district-name">
                                 <div class="field-title">District Name :</div>
-                                <div class="field-value" style="width: 65%;">Surat</div>
+                                <div class="field-value" style="width: 65%;"> - </div>
                             </div>
                             <div class="state-name">
                                 <div class="field-title">State Name :</div>
-                                <div class="field-value" style="width: 72%;">Gujarat</div>
+                                <div class="field-value" style="width: 72%;"> - </div>
                             </div>
                             <div class="money-number">
                                 <div class="field-title">Money :</div>
-                                <div class="field-value" style="width: 91%;">{{transfer.amount}}/-</div>
+                                <div class="field-value" style="width: 91%;">{{transfer.amount?transfer.amount:'-'}}/-</div>
                             </div>
                             <div class="mobile-number">
                                 <div class="field-title">Mobile Number :</div>
-                                <div class="field-value" style="width: 82%;">{{transfer.mobileNo}}</div>
+                                <div class="field-value" style="width: 82%;">{{transfer.mobileNo?transfer.mobileNo:'-'}}</div>
                             </div>
                         </div>
 

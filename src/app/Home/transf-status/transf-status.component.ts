@@ -12,60 +12,38 @@ import { ValidationService } from 'src/app/Service/ValidationService.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-bank',
-  templateUrl: './bank.component.html',
-  styleUrls: ['./bank.component.scss']
+  selector: 'app-transf-status',
+  templateUrl: './transf-status.component.html',
+  styleUrls: ['./transf-status.component.css']
 })
-export class BankComponent implements OnInit {
+export class TransfStatusComponent implements OnInit {
 
-  bankObj: any = {};
-  bankTypeList: any = [];
-  bankList: any = [];
+  statusObj: any = {};
+  statusList: any = [];
   // pagination
   paginationRequest = new PaginationRequest();
   paginationResponse = new PaginationResponse();
   searchText = '';
-  username = '';
   type = 'add';
-  // transfer form-control
-  bankForm: FormGroup;
+  // transfer status form-control
+  statusForm: FormGroup;
   constructor(public utils: UtilsService, public router: Router, public serverVar: ServerVariableService
     , public fb: FormBuilder, public validationService: ValidationService) { }
 
   ngOnInit() {
-    this.getAllBankType();
-    this.getAllBank();
+    this.getAllStatus();
     this.resetFormValidation();
     // this.paginationRequest.noOfRecordPerPageArray = this.paginationRequest.noOfRecordPerPageArrayAdmin;
   }
 
   resetFormValidation() {
-    // login form-control property asignment
-    this.bankForm = this.fb.group({
-      bankName: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_SPACE_AND_SPACIAL_CHARACTER_NOT_ALLOW)])],
-      bankTypeName: [null, Validators.compose([Validators.required])]
+    this.statusForm = this.fb.group({
+      name: [null, Validators.compose([Validators.required, Validators.pattern(this.validationService.ONLY_SPACE_AND_SPACIAL_CHARACTER_NOT_ALLOW)])]
     });
   }
 
-  getAllBankType() {
-    this.bankTypeList = [];
-    this.utils.getMethodAPI(this.serverVar.BANK_TYPE_ALL, (response) => {
-      if (!this.utils.isNullUndefinedOrBlank(response)) {
-        if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
-          if (!this.utils.isNullUndefinedOrBlank(response.data)) {
-            this.bankTypeList = response.data.tblBankType;
-          } else {
-            this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
-          }
-        } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
-        }
-      }
-    });
-  }
-
-  getAllBank() {
-    this.bankList = [];
+  getAllStatus() {
+    this.statusList = [];
     if (this.paginationRequest.searchText) {
       this.paginationRequest.pageNumber = '1';
     }
@@ -76,22 +54,20 @@ export class BankComponent implements OnInit {
       sortOrder: this.paginationRequest.sortOrder,
       searchText: this.paginationRequest.searchText ? this.paginationRequest.searchText.toLowerCase() : undefined
     };
-    // const param = {'jsonOfObject': {},'noOfRecords': 20, 'pageNumber': 1, 'searchText': '','sortColumn': '', 'sortOrder': ''};
-    this.utils.postMethodAPI(this.serverVar.BANK_ALL, param, (response) => {
+    this.utils.postMethodAPI(this.serverVar.STATUS_GET_ALL, param, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.paginationResponse = Deserialize(response.data, PaginationResponse);
-            // this.bankList = Deserialize(this.paginationResponse.content, Bank);
-            this.bankList = this.paginationResponse.content; // response.data.content;
+            this.statusList = this.paginationResponse.content; // response.data.content;
             if (this.paginationResponse.content && this.paginationResponse.content.length > 0) {
               this.paginationResponse = this.utils.setPaginationSetting(this.paginationResponse);
             }
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
+            // this.utils.CreateNotification('error', 'Error!', 'bank Record not  found');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
+          // this.utils.CreateNotification('error', 'Error!', 'fails to get bank records.');
         }
       }
     });
@@ -99,91 +75,91 @@ export class BankComponent implements OnInit {
 
   addModel() {
     $('#myModal').modal('show');
-    this.bankObj = {};
+    this.statusObj = {};
     this.type = 'add';
   }
   closeModel() {
     $('#myModal').modal('hide');
-    this.bankObj = {};
+    this.statusObj = {};
     this.type = 'add';
   }
 
   save() {
-    if (this.bankForm.valid) {
+    if (this.statusForm.valid) {
       const param = {
-        jsonOfObject: this.bankObj,
+        jsonOfObject: this.statusObj,
         pageNumber: this.paginationRequest.pageNumber,
         noOfRecords: this.paginationRequest.noOfRecords,
       };
-      this.utils.postMethodAPI(this.serverVar.BANK_ADD, param, (response) => {
+      this.utils.postMethodAPI(this.serverVar.STATUS_ADD, param, (response) => {
         if (!this.utils.isNullUndefinedOrBlank(response)) {
           if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
             if (!this.utils.isNullUndefinedOrBlank(response.data)) {
               this.closeModel();
               this.utils.CreateNotification('success', 'Success!', response.message);
-              this.getAllBank();
+              this.getAllStatus();
             } else {
-              this.utils.CreateNotification('error', 'Error!', 'save bankObj fails');
+              this.utils.CreateNotification('error', 'Error!', 'save statusObj fails');
             }
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'fails to save bankObj records.');
+            this.utils.CreateNotification('error', 'Error!', 'fails to save statusObj records.');
           }
         }
       });
     }
   }
 
-  // view by id bankObj
-  getByIdBank(bank, type) {
+  // view by id statusObj
+  getByIdStatus(bank, type) {
     if (type !== 'edit') {
       this.type = 'view';
     }
-    this.utils.getMethodAPI(this.serverVar.BANK_BY_ID + '/' + bank.id, (response) => {
+    this.utils.getMethodAPI(this.serverVar.STATUS_BY_ID + '/' + bank.id, (response) => {
       if (!this.utils.isNullUndefinedOrBlank(response)) {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.utils.CreateNotification('success', 'Success!', response.message);
             $('#myModal').modal('show');
-            this.bankObj = response.data;
+            this.statusObj = response.data;
           } else {
-            this.utils.CreateNotification('error', 'Error!', 'bankObj Record by id not found');
+            this.utils.CreateNotification('error', 'Error!', 'statusObj Record by id not found');
           }
         } else {
-          this.utils.CreateNotification('error', 'Error!', 'fails to get bankObj by id.');
+          this.utils.CreateNotification('error', 'Error!', 'fails to get statusObj by id.');
         }
       }
     });
   }
 
-  // edit bankObj
-  editbank(bank) {
+  // edit statusObj
+  editStatus(bank) {
     $('#myModal').modal('show');
     this.type = 'edit';
-    // this.bankObj = { bankName: bank.bankName, id: bank.id };
-    this.getByIdBank(bank, 'edit');
+    // this.statusObj = { name: bank.name, id: bank.id };
+    this.getByIdStatus(bank, 'edit');
   }
   update() {
-    if (this.bankForm.valid) {
-      const id = this.bankObj.id;
-      if (this.bankObj.id) {
-        delete this.bankObj.id;
+    if (this.statusForm.valid) {
+      const id = this.statusObj.id;
+      if (this.statusObj.id) {
+        delete this.statusObj.id;
         const param = {
-          jsonOfObject: { bankName: this.bankObj.bankName, idOfBankType: this.bankObj.idOfBankType },
+          jsonOfObject: { name: this.statusObj.name },
           pageNumber: this.paginationRequest.pageNumber,
           noOfRecords: this.paginationRequest.noOfRecords,
         };
-        this.utils.putMethodAPI(this.serverVar.BANK_UPDATE, param, id, (response) => {
+        this.utils.putMethodAPI(this.serverVar.STATUS_UPDATE, param, id, (response) => {
           if (!this.utils.isNullUndefinedOrBlank(response)) {
             if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
               if (!this.utils.isNullUndefinedOrBlank(response.data)) {
                 this.closeModel();
                 this.utils.CreateNotification('success', 'Success!', response.message);
-                this.getAllBank();
+                this.getAllStatus();
               } else {
-                this.utils.CreateNotification('error', 'Error!', 'update bankObj fails');
+                this.utils.CreateNotification('error', 'Error!', 'update statusObj fails');
               }
             } else {
-              this.utils.CreateNotification('error', 'Error!', 'fails to update bankObj records.');
+              this.utils.CreateNotification('error', 'Error!', 'fails to update statusObj records.');
             }
           }
         });
@@ -194,18 +170,18 @@ export class BankComponent implements OnInit {
   }
 
   // delete bank
-  deleteBank(bank) {
+  deleteStatus(status) {
     if (confirm()) {
-      if (bank.id) {
-        const id = bank.id;
-        this.utils.deleteMethodAPI(this.serverVar.BANK_DELETE, id, (response) => {
+      if (status.id) {
+        const id = status.id;
+        this.utils.deleteMethodAPI(this.serverVar.STATUS_DELETE, id, (response) => {
           if (!this.utils.isNullUndefinedOrBlank(response)) {
             if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
               this.closeModel();
               this.utils.CreateNotification('success', 'Success!', response.message);
-              this.getAllBank();
+              this.getAllStatus();
             } else {
-              this.utils.CreateNotification('error', 'Error!', 'fails to delete bankObj records.');
+              this.utils.CreateNotification('error', 'Error!', 'fails to delete statusObj records.');
             }
           }
         });
@@ -216,8 +192,8 @@ export class BankComponent implements OnInit {
   }
 
   // dowloadPDF() {
-  //   const columns = [{ title: "Bank Name", dataKey: "bankName" }];
-  //   const rows = this.bankList;
+  //   const columns = [{ title: "Status Name", dataKey: "name" }];
+  //   const rows = this.statusList;
   //   const doc = new jsPDF('p', 'pt');
   //   doc.autoTable(columns, rows);
   //   doc.save('table.pdf');
@@ -226,20 +202,21 @@ export class BankComponent implements OnInit {
   /** start functions for pagination */
   getPreviousData() {
     this.utils.getPreviousData(this.paginationRequest);
-    this.getAllBank();
+    this.getAllStatus();
   }
   getNextData() {
     this.utils.getNextData(this.paginationRequest);
-    this.getAllBank();
+    this.getAllStatus();
   }
 
   changePage() {
-    this.getAllBank();
+    this.getAllStatus();
   }
 
   changeNoOfRecord() {
     this.utils.changeNoOfRecord(this.paginationRequest);
-    this.getAllBank();
+    this.getAllStatus();
   }
   /** end start functions for pagination */
+
 }

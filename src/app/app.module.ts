@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {DpDatePickerModule} from 'ng2-date-picker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -27,7 +27,7 @@ import {DpDatePickerModule} from 'ng2-date-picker';
     HttpClientModule,
     FormsModule,
     NgSelectModule,
-    DpDatePickerModule
+    BsDatepickerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

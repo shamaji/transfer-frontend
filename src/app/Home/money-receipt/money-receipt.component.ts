@@ -2,8 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilsService } from 'src/app/Service/UtilService.service';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
-// import * as jspdf from 'jspdf';
-// import html2canvas from 'html2canvas';
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-money-receipt',
@@ -13,12 +13,15 @@ import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 export class MoneyReceiptComponent implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   transfer: any = {};
+  accNo = [];
   constructor(public utils: UtilsService, public router: Router, public route: ActivatedRoute, public serverVar: ServerVariableService) {
     this.route.params.subscribe(params => {
       if (!this.utils.isEmptyObject(params)) {
-        console.log(params);
         if (params.id) {
           this.getByIdTransfer(params.id);
+        } else {
+          this.utils.CreateNotification('error', 'Error!', 'transfer id not found.');
+          this.router.navigate(['/home/work_area/transfer']);
         }
       }
     });
@@ -34,8 +37,11 @@ export class MoneyReceiptComponent implements OnInit {
         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
             this.utils.CreateNotification('success', 'Success!', response.message);
-            this.transfer = response.data;
-            console.log(this.transfer);
+            this.transfer = response.data; // Deserialize(response.data, Transfer);
+            // console.log(this.transfer);
+            if (this.transfer.accountNumber) {
+              this.accNo = this.transfer.accountNumber.split("");
+            }
           } else {
             this.utils.CreateNotification('error', 'Error!', 'Transfer Record by id not found');
           }
@@ -46,21 +52,21 @@ export class MoneyReceiptComponent implements OnInit {
     });
   }
 
-  // downloadPDF() {
-  //   var data = document.getElementById('contentToConvert');
-  //   html2canvas(data).then(canvas => {
-  //     // Few necessary setting options
-  //     var imgWidth = 208;
-  //     var pageHeight = 295;
-  //     var imgHeight = canvas.height * imgWidth / canvas.width;
-  //     var heightLeft = imgHeight;
+  downloadPDF() {
+    var data = document.getElementById('contentToConvert');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options
+      var imgWidth = 208;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
 
-  //     const contentDataURL = canvas.toDataURL('image/png');
-  //     let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-  //     var position = 0;
-  //     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-  //     pdf.save('money_receipt.pdf'); // Generated PDF
-  //   });
-  // }
+      const contentDataURL = canvas.toDataURL('image/png')
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+      pdf.save('transferSlip.pdf'); // Generated PDF   
+    });
+  }
 
 }
