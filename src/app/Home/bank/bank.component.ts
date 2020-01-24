@@ -200,21 +200,23 @@ export class BankComponent implements OnInit {
 
   // delete bank
   deleteBank(bank) {
-    if (bank.id) {
-      const id = bank.id;
-      this.utils.deleteMethodAPI(this.serverVar.BANK_DELETE, id, (response) => {
-        if (!this.utils.isNullUndefinedOrBlank(response)) {
-          if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
-            this.closeModel();
-            this.utils.CreateNotification('success', 'Success!', response.message);
-            this.getAllBank();
-          } else {
-            this.utils.CreateNotification('error', 'Error!', 'fails to delete bankObj records.');
+    if (confirm()) {
+      if (bank.id) {
+        const id = bank.id;
+        this.utils.deleteMethodAPI(this.serverVar.BANK_DELETE, id, (response) => {
+          if (!this.utils.isNullUndefinedOrBlank(response)) {
+            if (!this.utils.isNullUndefinedOrBlank(response.status) && (response.status === 200 || response.status === 201)) {
+              this.closeModel();
+              this.utils.CreateNotification('success', 'Success!', response.message);
+              this.getAllBank();
+            } else {
+              this.utils.CreateNotification('error', 'Error!', 'fails to delete bankObj records.');
+            }
           }
-        }
-      });
-    } else {
-      this.utils.CreateNotification('error', 'Error!', 'Delete Id Not Found.');
+        });
+      } else {
+        this.utils.CreateNotification('error', 'Error!', 'Delete Id Not Found.');
+      }
     }
   }
 

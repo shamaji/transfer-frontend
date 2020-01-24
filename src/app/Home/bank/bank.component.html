@@ -33,7 +33,7 @@
                             {{paginationResponse && paginationResponse.totalElements?paginationResponse.totalElements:0}}
                             )</span>
                     </div>
-                    <div class="search-total">                        
+                    <div class="search-total">
                         <input id="searchText" type="text" placeholder="Search"
                             [(ngModel)]="paginationRequest.searchText" class="form-control"
                             (keyup.enter)="getAllBank()">
@@ -140,52 +140,42 @@
                         <div class="form-group">
                             <label>Bank Name</label>
                             <input class="form-control" type="text" placeholder="Bank Name"
-                                [(ngModel)]='bankObj.bankName' [readonly]="type==='view'"
-                                [formControl]="bankForm.controls['bankName']" maxlength="100">
+                                [(ngModel)]='bankObj.bankName' [formControl]="bankForm.controls['bankName']"
+                                maxlength="100">
                             <span class="error-msg"
                                 *ngIf="bankForm && bankForm.controls['bankName'].hasError('required') && bankForm.controls['bankName'].touched">
                                 bank Name Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="bankForm && !bankForm.controls['bankName'].hasError('required') && !bankForm.controls['bankName'].valid && loginService.bankForm.controls['bankName'].touched">
+                                *ngIf="bankForm && !bankForm.controls['bankName'].hasError('required') && !bankForm.controls['bankName'].valid && bankForm.controls['bankName'].touched">
                                 Please Enter Valid bank Name
                             </span>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <ng-container *ngIf="type==='view'; else elseBlock;">
-                            <div class="form-group" *ngIf="bankObj.bankType && bankObj.bankType.bankTypeName">
-                                <label>Bank Type</label>
-                                <input class="form-control" type="text" placeholder="Bank Name"
-                                    [(ngModel)]='bankObj.bankType.bankTypeName' [readonly]="type==='view'">
-                            </div>
-                        </ng-container>
-                    </div>
-                    <div class="col-md-12">
-                        <ng-template #elseBlock>
-                            <div class="form-group">
-                                <label>Bank Type</label>
-                                <select class="form-control" [(ngModel)]='bankObj.idOfBankType'
-                                    [formControl]="bankForm.controls['bankTypeName']" maxlength="100">
-                                    <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}
-                                    </option>
-                                </select>
-                                <span class="error-msg"
-                                    *ngIf="bankForm && bankForm.controls['bankTypeName'].hasError('required') && bankForm.controls['bankTypeName'].touched">
-                                    bank Type Is Required. </span>
-                                <span class="error-msg"
-                                    *ngIf="bankForm && !bankForm.controls['bankTypeName'].hasError('required') && !bankForm.controls['bankTypeName'].valid && loginService.bankForm.controls['bankTypeName'].touched">
-                                    Please Enter Valid bank Type
-                                </span>
-                            </div>
-                        </ng-template>
+                        <div class="form-group">
+                            <label>Bank Type</label>
+                            <select class="form-control" [(ngModel)]='bankObj.idOfBankType'
+                                [formControl]="bankForm.controls['bankTypeName']" maxlength="100">
+                                <option *ngFor="let type of bankTypeList;" [value]="type.id">{{type.bankTypeName}}
+                                </option>
+                            </select>
+                            <span class="error-msg"
+                                *ngIf="bankForm && bankForm.controls['bankTypeName'].hasError('required') && bankForm.controls['bankTypeName'].touched">
+                                bank Type Is Required. </span>
+                            <span class="error-msg"
+                                *ngIf="bankForm && !bankForm.controls['bankTypeName'].hasError('required') && !bankForm.controls['bankTypeName'].valid && loginService.bankForm.controls['bankTypeName'].touched">
+                                Please Enter Valid bank Type
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button *ngIf="type==='add'" class="btn btn-success" (click)="save()">Save</button>
-                <button *ngIf="type==='edit'" class="btn btn-success" (click)="update()">Update</button>
-                <button class="btn btn-light" data-dismiss="modal">Close</button>
-                <div style="color: red;"> {{message}}</div>
+                <button *ngIf="type==='add'" class="btn btn-success" (click)="save()"
+                    [disabled]="!bankForm.valid">Save</button>
+                <button *ngIf="type==='edit'" class="btn btn-success" (click)="update()"
+                    [disabled]="!bankForm.valid">Update</button>
+                <button class="btn btn-light" (click)="closeModel()">Close</button>
             </div>
         </div>
 

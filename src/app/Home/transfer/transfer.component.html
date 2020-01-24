@@ -161,9 +161,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Transfer Date</label>
-                            <!-- <input class="form-control" type="date" placeholder="date"
-                                [(ngModel)]='transfer.transferDate'> -->
-                                <dp-date-picker [(ngModel)]="transfer.transferDate" [config]="datePickerConfig"></dp-date-picker>  
+                            <input class="form-control" type="date" placeholder="date"
+                                [(ngModel)]='transfer.transferDate'>
+                                <!-- <dp-date-picker [(ngModel)]="transfer.transferDate" [config]="datePickerConfig"></dp-date-picker>   -->
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -176,7 +176,7 @@
                                 *ngIf="transferForm && transferForm.controls['name'].hasError('required') && transferForm.controls['name'].touched">
                                 Customer Name Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['name'].hasError('required') && !transferForm.controls['name'].valid && loginService.transferForm.controls['name'].touched">
+                                *ngIf="transferForm && !transferForm.controls['name'].hasError('required') && !transferForm.controls['name'].valid && transferForm.controls['name'].touched">
                                 Please Enter Valid Customer Name
                             </span>
                         </div>
@@ -193,7 +193,7 @@
                                 *ngIf="transferForm && transferForm.controls['bankName'].hasError('required') && transferForm.controls['bankName'].touched">
                                 Bank Name Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['bankName'].hasError('required') && !transferForm.controls['bankName'].valid && loginService.transferForm.controls['bankName'].touched">
+                                *ngIf="transferForm && !transferForm.controls['bankName'].hasError('required') && !transferForm.controls['bankName'].valid && transferForm.controls['bankName'].touched">
                                 Please Enter Valid Bank Name
                             </span>
                         </div>
@@ -210,7 +210,7 @@
                                 *ngIf="transferForm && transferForm.controls['status'].hasError('required') && transferForm.controls['status'].touched">
                                 Status Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['status'].hasError('required') && !transferForm.controls['status'].valid && loginService.transferForm.controls['status'].touched">
+                                *ngIf="transferForm && !transferForm.controls['status'].hasError('required') && !transferForm.controls['status'].valid && transferForm.controls['status'].touched">
                                 Please Enter Valid Status
                             </span>
                         </div>
@@ -224,7 +224,7 @@
                                 *ngIf="transferForm && transferForm.controls['amount'].hasError('required') && transferForm.controls['amount'].touched">
                                 Amount Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['amount'].hasError('required') && !transferForm.controls['amount'].valid && loginService.transferForm.controls['amount'].touched">
+                                *ngIf="transferForm && !transferForm.controls['amount'].hasError('required') && !transferForm.controls['amount'].valid && transferForm.controls['amount'].touched">
                                 Please Enter Valid Amount
                             </span>
                         </div>
@@ -239,7 +239,7 @@
                                 *ngIf="transferForm && transferForm.controls['accNo'].hasError('required') && transferForm.controls['accNo'].touched">
                                 Account Number Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['accNo'].hasError('required') && !transferForm.controls['accNo'].valid && loginService.transferForm.controls['accNo'].touched">
+                                *ngIf="transferForm && !transferForm.controls['accNo'].hasError('required') && !transferForm.controls['accNo'].valid && transferForm.controls['accNo'].touched">
                                 Please Enter Valid Account number
                             </span>
                         </div>
@@ -253,7 +253,7 @@
                                 *ngIf="transferForm && transferForm.controls['pinCode'].hasError('required') && transferForm.controls['pinCode'].touched">
                                 PinCode Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['pinCode'].hasError('required') && !transferForm.controls['pinCode'].valid && loginService.transferForm.controls['pinCode'].touched">
+                                *ngIf="transferForm && !transferForm.controls['pinCode'].hasError('required') && !transferForm.controls['pinCode'].valid && transferForm.controls['pinCode'].touched">
                                 Please Enter Valid PinCode
                             </span>
                         </div>
@@ -268,7 +268,7 @@
                                 *ngIf="transferForm && transferForm.controls['mobileNo'].hasError('required') && transferForm.controls['mobileNo'].touched">
                                 Mobile Number Is Required. </span>
                             <span class="error-msg"
-                                *ngIf="transferForm && !transferForm.controls['mobileNo'].hasError('required') && !transferForm.controls['mobileNo'].valid && loginService.transferForm.controls['mobileNo'].touched">
+                                *ngIf="transferForm && !transferForm.controls['mobileNo'].hasError('required') && !transferForm.controls['mobileNo'].valid && transferForm.controls['mobileNo'].touched">
                                 Please Enter Valid Mobile Number
                             </span>
                         </div>
