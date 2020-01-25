@@ -41,9 +41,7 @@ export class UtilsService {
     loaderStart = 0;
 
     isAllowRoutes = [
-        this.serverVariableService.CUSTOMER,
-        this.serverVariableService.TRANSFER_ALL,
-        this.serverVariableService.TRANSFER_ADD
+        this.serverVariableService.LOGIN
     ];
 
     serverResponse = new ResponseWrapperDTO();
@@ -89,6 +87,10 @@ export class UtilsService {
 
     getMethodAPI(apiName, callback: (response) => void) {
         let headers = new HttpHeaders();
+        if (!this.isAllowRoutes.includes(apiName)) {
+            console.log('in get', apiName);
+            headers = headers.set('Authorization', this.getAccessToken());
+        }
         headers.append('Content-Type', 'Application/json');
         apiName = this.URL + this.APIStartWith + apiName;
         return this.http.get(apiName, { headers }).subscribe(
@@ -102,7 +104,11 @@ export class UtilsService {
         );
     }
     postMethodAPI(urlServe, params, callback: (response) => void) {
-        const httpHeader = new HttpHeaders();
+        let httpHeader = new HttpHeaders();
+        if (!this.isAllowRoutes.includes(urlServe)) {
+            console.log('in post', urlServe);
+            httpHeader = httpHeader.set('Authorization', this.getAccessToken());
+        }
         const url = this.URL + this.APIStartWith + urlServe;
         const options = { headers: httpHeader };
         return this.http.post(url, params, options).subscribe(
@@ -117,11 +123,12 @@ export class UtilsService {
     }
 
     putMethodAPI(urlServe, params, id, callback: (response) => void) {
-        const httpHeader = new HttpHeaders();
-        console.log(this.URL + this.APIStartWith + urlServe);
-        console.log(id);
+        let httpHeader = new HttpHeaders();
+        if (!this.isAllowRoutes.includes(urlServe)) {
+            console.log('in put', urlServe);
+            httpHeader = httpHeader.set('Authorization', this.getAccessToken());
+        }
         const url = this.URL + this.APIStartWith + urlServe + '/' + id;
-        console.log(url)
         const options = { headers: httpHeader };
         return this.http.put(url, params, options).subscribe(
             putResponse => {
@@ -136,6 +143,10 @@ export class UtilsService {
 
     deleteMethodAPI(url, id, callback: (response) => void) {
         let httpHeader = new HttpHeaders();
+        if (!this.isAllowRoutes.includes(url)) {
+            console.log('in put', url);
+            httpHeader = httpHeader.set('Authorization', this.getAccessToken());
+        }
         url = this.URL + this.APIStartWith + url + '/' + id;
         const options = { headers: httpHeader };
         return this.http.delete(url, options).subscribe(
@@ -626,7 +637,7 @@ export class UtilsService {
         const userDetail = localStorage.getItem(this.serverVariableService.LOCAL_STORAGE_FOR_USER_DETAIL);
         if (!this.isNullUndefinedOrBlank(userDetail)) {
             const user = JSON.parse(userDetail);
-            return user.token;
+            return 'Bearer ' + user.token;
         } else {
             return null;
         }

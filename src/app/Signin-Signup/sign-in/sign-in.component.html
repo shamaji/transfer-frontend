@@ -7,7 +7,7 @@
 
             <!-- Logo -->
             <div class="card-header text-center">
-                <img src="assets/images/green-logo.png" alt="Logo">
+              <img src="assets/images/green-logo.png" alt="Logo">
             </div>
 
             <div class="card-body p-4">
@@ -27,7 +27,7 @@
                     *ngIf="loginForm && loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
                     Username Is Required. </span>
                   <span class="error-msg"
-                    *ngIf="loginForm && !loginForm.controls['username'].hasError('required') && !loginForm.controls['username'].valid && loginService.loginForm.controls['username'].touched">
+                    *ngIf="loginForm && !loginForm.controls['username'].hasError('required') && !loginForm.controls['username'].valid && loginForm.controls['username'].touched">
                     Please Enter Valid Username
                   </span>
                 </div>
@@ -40,7 +40,7 @@
                     *ngIf="loginForm && loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
                     password Is Required. </span>
                   <span class="error-msg"
-                    *ngIf="loginForm && !loginForm.controls['password'].hasError('required') && !loginForm.controls['password'].valid && loginService.loginForm.controls['password'].touched">
+                    *ngIf="loginForm && !loginForm.controls['password'].hasError('required') && !loginForm.controls['password'].valid && loginForm.controls['password'].touched">
                     Please Enter Valid password
                   </span>
                 </div>
@@ -53,7 +53,7 @@
                 </div> -->
 
                 <div class="form-group mb-4 mt-3 text-center">
-                  <button class="btn btn-primary" (click)="login()" type="submit"> Log In </button>
+                  <button class="btn btn-primary" (click)="login()" type="submit" [disabled]="!loginForm.valid"> Log In </button>
                 </div>
 
                 <span class="error-msg"> {{message}}</span>
@@ -65,7 +65,8 @@
 
           <div class="row mt-3">
             <div class="col-12 text-center">
-              <p class="text-muted">Don't have an account? <a routerLink="/sign-up/sign-up"  class="text-muted ml-1"><b>Sign
+              <p class="text-muted">Don't have an account? <a routerLink="/sign-up/sign-up"
+                  class="text-muted ml-1"><b>Sign
                     Up</b></a></p>
             </div> <!-- end col -->
           </div>

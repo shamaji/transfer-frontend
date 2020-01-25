@@ -87,9 +87,9 @@ export class TransfStatusComponent implements OnInit {
   save() {
     if (this.statusForm.valid) {
       const param = {
-        jsonOfObject: this.statusObj,
-        pageNumber: this.paginationRequest.pageNumber,
-        noOfRecords: this.paginationRequest.noOfRecords,
+        jsonOfObject: this.statusObj
+        // pageNumber: this.paginationRequest.pageNumber,
+        // noOfRecords: this.paginationRequest.noOfRecords,
       };
       this.utils.postMethodAPI(this.serverVar.STATUS_ADD, param, (response) => {
         if (!this.utils.isNullUndefinedOrBlank(response)) {
@@ -144,9 +144,9 @@ export class TransfStatusComponent implements OnInit {
       if (this.statusObj.id) {
         delete this.statusObj.id;
         const param = {
-          jsonOfObject: { name: this.statusObj.name },
-          pageNumber: this.paginationRequest.pageNumber,
-          noOfRecords: this.paginationRequest.noOfRecords,
+          jsonOfObject: { name: this.statusObj.name }
+          // pageNumber: this.paginationRequest.pageNumber,
+          // noOfRecords: this.paginationRequest.noOfRecords,
         };
         this.utils.putMethodAPI(this.serverVar.STATUS_UPDATE, param, id, (response) => {
           if (!this.utils.isNullUndefinedOrBlank(response)) {
