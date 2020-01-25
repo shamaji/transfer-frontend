@@ -11,7 +11,7 @@ import { BankComponent } from './bank/bank.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TransferComponent } from './transfer/transfer.component';
 import { MoneyReceiptComponent } from './money-receipt/money-receipt.component';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BanktypeComponent } from './banktype/banktype.component';
 import { TransfStatusComponent } from './transf-status/transf-status.component';
 
@@ -51,7 +51,7 @@ const routes: Routes = [
         HttpClientModule,
         RouterModule.forChild(routes),
         NgSelectModule,
-        BsDatepickerModule.forRoot()
+        // BsDatepickerModule.forRoot()
     ],
     providers: [],
     bootstrap: []

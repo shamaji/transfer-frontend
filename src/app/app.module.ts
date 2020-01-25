@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppRoutingModule } from './App-Routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './Shared/Shared.module';
@@ -10,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+// import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -27,7 +26,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     HttpClientModule,
     FormsModule,
     NgSelectModule,
-    BsDatepickerModule.forRoot()
+    // BsDatepickerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
