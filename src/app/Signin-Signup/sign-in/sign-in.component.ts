@@ -32,38 +32,38 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  // login() {
-  //   if (this.user.username && this.user.password) {
-  //     this.utils.postMethodAPI(this.serverVar.LOGIN, this.user, (response) => {
-  //       if (!this.utils.isNullUndefinedOrBlank(response)) {
-  //         if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
-  //           if (!this.utils.isNullUndefinedOrBlank(response.data)) {
-  //             this.utils.CreateNotification('success', 'Success!', response.message);
-  //             localStorage.setItem(this.serverVar.LOCAL_STORAGE_FOR_USER_DETAIL, JSON.stringify(response.data));
-  //             this.router.navigate(['/home']);
-  //           } else {
-  //             this.utils.CreateNotification('error', 'Error!', 'User Record not  found');
-  //           }
-  //         } else {
-  //           this.utils.CreateNotification('error', 'Error!', 'please enter valid username and password');
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     this.utils.CreateNotification('error', 'Error!', 'please enter username and password');
-  //   }
-  // }
   login() {
-    this.message = '';
     if (this.user.username && this.user.password && this.loginForm.valid) {
-      this.user.userName = this.user.username;
-      this.utils.CreateNotification('success', 'Success!', 'Login Successfully.');
-      localStorage.setItem(this.serverVar.LOCAL_STORAGE_FOR_USER_DETAIL, JSON.stringify(this.user));
-      this.router.navigate(['/home']);
+      this.utils.postMethodAPI(this.serverVar.LOGIN, this.user, (response) => {
+        if (!this.utils.isNullUndefinedOrBlank(response)) {
+          if (!this.utils.isNullUndefinedOrBlank(response.status) && response.status === 200) {
+            if (!this.utils.isNullUndefinedOrBlank(response.data)) {
+              this.utils.CreateNotification('success', 'Success!', response.message);
+              localStorage.setItem(this.serverVar.LOCAL_STORAGE_FOR_USER_DETAIL, JSON.stringify(response.data));
+              this.router.navigate(['/home']);
+            } else {
+              this.utils.CreateNotification('error', 'Error!', 'User Record not  found');
+            }
+          } else {
+            this.utils.CreateNotification('error', 'Error!', 'please enter valid username and password');
+          }
+        }
+      });
     } else {
-      this.message = 'Plaese enter details';
+      this.utils.CreateNotification('error', 'Error!', 'please enter username and password');
     }
   }
+  // login() {
+  //   this.message = '';
+  //   if (this.user.username && this.user.password && this.loginForm.valid) {
+  //     this.user.userName = this.user.username;
+  //     this.utils.CreateNotification('success', 'Success!', 'Login Successfully.');
+  //     localStorage.setItem(this.serverVar.LOCAL_STORAGE_FOR_USER_DETAIL, JSON.stringify(this.user));
+  //     this.router.navigate(['/home']);
+  //   } else {
+  //     this.message = 'Plaese enter details';
+  //   }
+  // }
 
   resetLogin() { this.loginForm.reset(); }
 
