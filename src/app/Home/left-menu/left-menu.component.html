@@ -37,7 +37,7 @@
                     <span> Bank </span>
                 </a>
             </li>
-            <li class="side-nav-item">
+            <!-- <li class="side-nav-item">
                 <a [routerLink]="['/home/work_area/banktype']" class="side-nav-link">
                     <i class="uil-building"></i>
                     <span> Bank Type </span>
@@ -48,7 +48,7 @@
                     <i class="uil-exchange"></i>
                     <span> Transfer Status </span>
                 </a>
-            </li>
+            </li> -->
             <li class="side-nav-item">
                 <a class="side-nav-link" href="">
                     <i class="uil-clipboard-alt"></i>
@@ -72,10 +72,10 @@
                 </a>
                 <ul class="side-nav-second-level" aria-expanded="false">
                     <li>
-                        <a href="#">Transfer Status</a>
+                        <a [routerLink]="['/home/work_area/transfer-status']">Transfer Status</a>
                     </li>
                     <li>
-                        <a href="#">Bank Type</a>
+                        <a [routerLink]="['/home/work_area/banktype']">Bank Type</a>
                     </li>
                 </ul>
             </li>

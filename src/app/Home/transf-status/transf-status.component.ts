@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'src/app/Service/UtilService.service';
 import { Router } from '@angular/router';
-// import jsPDF from 'jspdf';
-// import 'jspdf-autotable';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { PaginationRequest } from 'src/app/Modal/PaginationRequest';
 import { PaginationResponse } from 'src/app/Modal/PaginationResponse';
@@ -10,6 +8,8 @@ import { Deserialize } from 'cerialize';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from 'src/app/Service/ValidationService.service';
 declare var $: any;
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-transf-status',
@@ -191,13 +191,13 @@ export class TransfStatusComponent implements OnInit {
     }
   }
 
-  // dowloadPDF() {
-  //   const columns = [{ title: "Status Name", dataKey: "name" }];
-  //   const rows = this.statusList;
-  //   const doc = new jsPDF('p', 'pt');
-  //   doc.autoTable(columns, rows);
-  //   doc.save('table.pdf');
-  // }
+  dowloadPDF() {
+    const columns = [{ title: "Status Name", dataKey: "name" }];
+    const rows = this.statusList;
+    const doc = new jsPDF('p', 'pt');
+    doc.autoTable(columns, rows);
+    doc.save('table.pdf');
+  }
 
   /** start functions for pagination */
   getPreviousData() {

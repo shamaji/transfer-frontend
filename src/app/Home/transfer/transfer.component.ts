@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'src/app/Service/UtilService.service';
 import { Router } from '@angular/router';
-// import jsPDF from 'jspdf';
-// import 'jspdf-autotable';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { PaginationRequest } from 'src/app/Modal/PaginationRequest';
 import { PaginationResponse } from 'src/app/Modal/PaginationResponse';
@@ -10,6 +8,8 @@ import { Deserialize, Serialize } from 'cerialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from 'src/app/Service/ValidationService.service';
 import { Transfer } from 'src/app/Modal/Transfer';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 declare var $: any;
 
 @Component({
@@ -261,16 +261,21 @@ export class TransferComponent implements OnInit {
     }
   }
 
-  // dowloadPDF() {
-  //   const columns = [
-  //     { title: "Name", dataKey: "accountHolderName" }, { title: "Bank Name", dataKey: "bankName" },
-  //     { title: "AccountNo", dataKey: "accountNumber" }, { title: "Amount", dataKey: "amount" }
-  //   ];
-  //   const rows = this.transferList;
-  //   const doc = new jsPDF('p', 'pt');
-  //   doc.autoTable(columns, rows);
-  //   doc.save('table.pdf');
-  // }
+  dowloadPDF() {
+    this.transferList.forEach(element => {
+      element['bankName'] = element.bank.bankName;
+      element['name'] = element.status.name;
+    });
+    const columns = [ { title: "Slip Number", dataKey: "slipNumber" },{ title: "Date", dataKey: "transferDate" },
+      { title: "Name", dataKey: "accountHolderName" }, { title: "Bank Name", dataKey: "bankName" },
+      { title: "AccountNo", dataKey: "accountNumber" }, { title: "Amount", dataKey: "amount" }
+      , { title: "Mobile", dataKey: "mobileNo" }, { title: "Status", dataKey: "name" }
+    ];
+    const rows = this.transferList;
+    const doc = new jsPDF('p', 'pt');
+    doc.autoTable(columns, rows);
+    doc.save('table.pdf');
+  }
 
   /** start functions for pagination */
   getPreviousData() {

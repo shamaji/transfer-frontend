@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'src/app/Service/UtilService.service';
 import { Router } from '@angular/router';
-// import jsPDF from 'jspdf';
-// import 'jspdf-autotable';
 import { ServerVariableService } from 'src/app/Service/serverVariable.service';
 import { PaginationRequest } from 'src/app/Modal/PaginationRequest';
 import { PaginationResponse } from 'src/app/Modal/PaginationResponse';
 import { Deserialize } from 'cerialize';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ValidationService } from 'src/app/Service/ValidationService.service';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 declare var $: any;
 
 @Component({
@@ -215,13 +215,13 @@ export class BankComponent implements OnInit {
     }
   }
 
-  // dowloadPDF() {
-  //   const columns = [{ title: "Bank Name", dataKey: "bankName" }];
-  //   const rows = this.bankList;
-  //   const doc = new jsPDF('p', 'pt');
-  //   doc.autoTable(columns, rows);
-  //   doc.save('table.pdf');
-  // }
+  dowloadPDF() {
+    const columns = [{ title: "Bank Name", dataKey: "bankName" }];
+    const rows = this.bankList;
+    const doc = new jsPDF('p', 'pt');
+    doc.autoTable(columns, rows);
+    doc.save('table.pdf');
+  }
 
   /** start functions for pagination */
   getPreviousData() {

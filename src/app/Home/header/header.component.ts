@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     const user: any = this.utils.getUserDetails();
     if (!this.utils.isNullUndefinedOrBlank(user)) {
-      this.username = user.userName;
+      this.username = user.user.username;
     }
   }
 
